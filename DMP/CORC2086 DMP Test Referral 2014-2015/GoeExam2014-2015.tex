@@ -1,0 +1,252 @@
+% ANUfinalexam.tex (Version 2.0)
+% ===============================================================================
+% Australian National University Final Exam LaTeX template.
+% 2004; 2009, Timothy Kam, ANU School of Economics
+% Licence type: Free as defined in the GNU General Public Licence: http://www.gnu.org/licenses/gpl.html
+
+\documentclass[a4paper,12pt,fleqn]{article}
+\setlength{\parindent}{0em}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{import}
+\usepackage{comment}
+
+% Unit definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\kilowattpeak{kW_P}
+\DeclareSIUnit\kVA{kVA}
+\DeclareSIUnit\kVAR{kVAR}
+\DeclareSIUnit\year{y}
+\DeclareSIUnit\north{N}
+\DeclareSIUnit\south{S}
+\DeclareSIUnit\second{s}
+
+
+% Insert your course information here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\institution}{CORNWALL COLLEGE}
+\newcommand{\titlehd}{BSc Renewable Energy and Carbon Management}
+\newcommand{\examtype}{Referral Test}
+\newcommand{\examdate}{Academic Year 2014-2015}
+\newcommand{\examcode}{CORC2086}
+\newcommand{\examtitle}{Data Modelling and Processing}
+\newcommand{\readtime}{15 Minutes}
+\newcommand{\writetime}{Two Hours}
+\newcommand{\materials}{Non-programmable Calculators; Formula Sheet}
+\newcommand{\middlewords}{Test continues on next page}
+\newcommand{\lastwords}{End of Test}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\setcounter{MaxMatrixCols}{10}
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+% ANU Exams Office mandated margins and footer style
+\setlength{\topmargin}{0cm}
+\setlength{\textheight}{9.25in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
+\setlength{\textwidth}{16cm}
+\pagestyle{fancy}
+\lhead{} 
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\footnotesize{Page \thepage \ of \pageref{finalpage} -- \titlehd \ (\examcode)}} 
+\rfoot{} 
+
+% DEPRECATED: ANU Exams Office mandated margins and footer style
+%\setlength{\topmargin}{0cm}
+%\setlength{\textheight}{9.25in}
+%\setlength{\oddsidemargin}{0.0in}
+%\setlength{\evensidemargin}{0.0in}
+%\setlength{\textwidth}{16cm}
+%\pagestyle{fancy}
+%\lhead{} %left of the header
+%\chead{} %center of the header
+%\rhead{} %right of the header
+%\lfoot{} %left of the footer
+%\cfoot{} %center of the footer
+%\rfoot{Page \ \thepage \ of \ \pageref{finalpage} \\
+%       \texttt{\examcode}} %Print the page number in the right footer
+
+\renewcommand{\headrulewidth}{0pt} %Do not print a rule below the header
+\renewcommand{\footrulewidth}{0pt}
+
+
+\begin{document}
+
+% Title page
+
+\begin{center}
+%\vspace{5cm}
+\large\textbf{\institution}
+\end{center}
+\vspace{1cm}
+
+\begin{center}
+\textit{ \examtype -- \examdate}
+\end{center}
+\vspace{1cm}
+
+\begin{center}
+\large\textbf{\titlehd}
+\end{center}
+
+\begin{center}
+\large\textbf{\examcode}
+\end{center}
+\begin{center}
+\large\textbf{\examtitle}
+\end{center}
+\vspace{4cm}
+\vspace{4cm}
+
+\begin{center}
+%\textit{Reading Time: \readtime}
+\end{center}
+\begin{center}
+\textit{Time Allowed:  \writetime}
+\end{center}
+\begin{center}
+\textit{Permitted Materials: \materials}
+\end{center}
+
+% End title page
+\newpage
+\textbf{Formulae}
+\newline
+%\begin{comment}
+\begin{itemize}
+
+\item If $y=f(g(x))$, then if $u=g(x)$,\[\dfrac{dy}{dx}=\dfrac{dy}{du}\cdot\dfrac{du}{dx}\] .
+\newline
+\item If $y =uv$, where $u$ and $v$ are both functions of $x$, \[\dfrac{dy}{dx}=v\dfrac{du}{dx}+u\dfrac{dv}{dx}\] 
+\newline
+\item If $y=\dfrac{u}{v}$, where $u$ and $v$ are both functions of $x$, \[\dfrac{dy}{dx}=\dfrac{v\dfrac{du}{dx}-u\dfrac{dv}{dx}}{v^2}\]
+\item \[\int u\dfrac{dv}{dx}dx=uv-\int v\dfrac{du}{dx}dx\]
+\end{itemize}
+
+%\end{comment}
+
+\newpage
+
+\begin{quote}
+\begin{center}
+\textit{There are\textbf{\ two} questions.}
+\end{center}
+\end{quote}
+
+\begin{quote}
+\begin{center}
+\textit{Answer\textbf{\ all} parts of \textbf{\ both} questions.}
+\end{center}
+\end{quote}
+
+\begin{quote}
+\begin{center}
+\textit{Each question is worth 50\% of the total marks}
+\end{center}
+\end{quote}
+
+\begin{quote}
+\begin{center}
+\textit{Answers are expected to contain clear mathematical workings for all steps.}
+\end{center}
+\end{quote}
+
+\bigskip
+
+\newpage
+\paragraph{\textbf{Question 1}}
+
+Differentiate the following with respect to $x$
+
+\begin{enumerate}[label=\alph*)]
+\item $y=\left(x^3+2x^{-2}\right)^7$
+\newline
+\item $y=\sin\left(x^3+3x\right)$
+\newline
+\item $y=\ln\left(3x^2+1\right)$
+\newline
+\item $y=x^2e^{2x}$
+\newline
+\item $y=x^{\frac{1}{2}}\cos\left(2x\right)$
+\newline
+\item $y=\dfrac{x^2-\sin x}{x^3-1}$
+\newline
+\item $y=\dfrac{4x\,e^{x^2}}{\cos x}$
+\end{enumerate}
+
+\begin{center}
+\vspace{3cm}
+--------- \textit{\middlewords} ---------
+\end{center}
+
+\newpage
+\paragraph{\textbf{Question 2}}
+
+\begin{enumerate}[label=\alph*)]
+\item Find \[\int^{\frac{1}{2}}_{-1}8x^2\left(x+4\right)\,dx\]
+\item Find \[\int\left(4x+3\right)^6\,dx\]
+\item Find \[\int^2_1 2x\,e^{3x}\,dx\]
+\item Find \[\int x\sin3x\,dx\]
+\item Using the substitution $u=3x^2-1$ or otherwise, find \[\int^2_0 x\left(3x^2-1\right)^2\,dx\]
+\item Using the substitution $u=x^3+1$ or otherwise, find the exact value of \[\int^2_1 \dfrac{x^2}{x^3+1}\,dx\]
+\end{enumerate}
+
+\begin{center}
+\vspace{3cm}
+--------- \textit{\lastwords} ---------
+\end{center}
+
+
+\label{finalpage}
+
+\begin{comment} % solutions
+
+\newpage
+\paragraph{\textbf{Solutions} \ }
+
+\paragraph{\textbf{Solutions to Question 1: }}
+\begin{enumerate}[label=\alph*)]
+\item sdfsdf
+\end{enumerate}
+
+\paragraph{\textbf{Solutions to Question 2: }}
+\begin{enumerate}[label=\alph*)]
+\item sdfsdf
+\end{enumerate}
+
+
+\end{comment}
+
+\end{document}
+

@@ -1,0 +1,74 @@
+\documentclass{standalone}
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+%\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{gensymb}
+
+% Unit definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\megawatthour{MWh}
+\DeclareSIUnit\kilowattpeak{kW_P}
+\DeclareSIUnit\kVA{kVA}
+\DeclareSIUnit\kVAR{kVAR}
+\DeclareSIUnit\rpm{rpm}
+\DeclareSIUnit\year{y}
+\DeclareSIUnit\north{N}
+\DeclareSIUnit\south{S}
+\DeclareSIUnit\second{s}
+\DeclareSIUnit\pence{p}
+\DeclareSIUnit\pound{£}
+
+% Constant definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\def\c{2.997e8} %speed of light in a vacuum
+\def\k{1.38065e-23} %Boltzmann's constant
+\def\h{6.6261e-34} %Planck's constant
+\def\pi{3.14157} %pi
+\def\r{6.96e8} % radius of sun in m
+\def\R{1.5e11} %average sun-earth radius in m
+
+\tikzstyle{every pin edge}=[>=stealth,<-,shorten <=1pt,very thin,font=\footnotesize]
+%
+\begin{tikzpicture}[>=stealth,shading=rainbow]
+    \begin{axis}[
+        width=14cm,
+        height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!50},
+        %legend entries={Reflected,Transmitted},
+        xmin=4,     % start the diagram at this x-coordinate
+        xmax=10,    % end   the diagram at this x-coordinate
+        ymin=0,     % start the diagram at this y-coordinate
+        ymax=300,   % end   the diagram at this y-coordinate
+        y tick label style={/pgf/number format/.cd,%
+        scaled y ticks = false,
+        set decimal separator={.},
+        fixed},
+        x tick label style={/pgf/number format/.cd,%
+        scaled x ticks = false,
+        set thousands separator={},
+        fixed},
+        /pgfplots/xtick={0,1,...,10},
+        /pgfplots/ytick={0,50,...,300},
+        axis background/.style={fill=white},
+        ylabel=Annual Energy Production (\si{\megawatthour}),
+        xlabel=Mean wind speed  (\si{\metre\per\second}),
+        tick align=inside,
+        axis on top]
+
+      % import the correct data from a CSV file
+     \addplot[mark=none,red!80] table [col sep=comma,y=AEP] {./data/AEP.csv};
+     %\addplot[mark=none,blue!80] table [col sep=comma,y=T] {../data/ReflectivityGlass.csv};
+
+       \end{axis} 
+\end{tikzpicture}
+\end{document}
+

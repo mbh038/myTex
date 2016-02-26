@@ -1,0 +1,145 @@
+%Preamble
+% Some of these are recommended by "9 LaTeX packages everyone should use" http://www.howtotex.com/packages/9-essential-latex-packages-everyone-should-use/, 
+%others were added as I came across the need for them.
+\RequirePackage[l2tabu, orthodox]{nag} % has to go here in the preamble. Checks for obsolete stuff.
+\documentclass[crop=false,parskip=half]{scrartcl} % the type of document
+\pagestyle{plain}
+\usepackage[utf8]{inputenc}
+\usepackage[table, usenames, dvipsnames]{xcolor}
+\definecolor{lightgray}{gray}{0.9} % I used this for the table background colour
+\usepackage{multirow} % needed if cells in a table need to span more than one row
+\usepackage{tabu} % makes table columns all have the same width
+\usepackage{verbatim}
+\usepackage[english]{babel} % so that the document follows the conventions of a  particular language eg english.
+\usepackage[documents]{ragged2e}
+\usepackage{amsmath} % for maths including align/align*
+\usepackage[a4paper]{geometry} % for adjusting page margins
+\usepackage[rightcaption]{sidecap}
+\usepackage[skip=true,justification=justified,singlelinecheck=false,font=small,format=plain,labelfont=bf,up,textfont=normal,up]{caption}
+\usepackage{graphicx} % needed for inserting figures eg \includegraphics
+\graphicspath{ {figures/} } %Name of the folder in the project in which all the images are kept.
+\usepackage{microtype} % improves spacing and general look of the document.
+\usepackage{siunitx} % helps with units and numbers
+\DeclareSIUnit\pence{p}
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\kilowattpeak{kW_p}
+\DeclareSIUnit\year{y}
+\usepackage{booktabs} % a way of creating tables without vertical separators. I haven't used this yet, and I don't think it is essential.
+\usepackage[
+backend=biber,
+style=authoryear,
+sorting=ynt
+]{biblatex} % needed for citations and references
+\addbibresource{references.bib} % name of the references file
+\usepackage{gensymb} % not sure. Makes some symbols work.
+\usepackage{csquotes}
+\usepackage{hyperref} % needed for hyperlinks, internal and external. Needs to go at the end of the preamble, except for a few things eg cleveref
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+} % style of the hyperlinks
+\urlstyle{same}
+\usepackage{cleveref}
+%\usepackage{exercise} % does all the things with exercises and solutions.
+\usepackage{exsheets} % does all the things with exercises and solutions.
+%\SetupExSheets[question]{type=exam}
+%\SetupExSheets{counter-format=(qu[a])}
+
+\usepackage{enumitem}
+
+%\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+% Title stuff
+\title{Output of a grid tied PV system}
+\author{Michael Hunt}
+\date{}
+
+
+\begin{document}
+\maketitle
+
+\section*{Data}
+
+Some data for a roof based grid tied pv system are given below
+\begin{itemize}
+\item Annual insolation at site = \SI{1200}{\kilowatthour\per\metre\squared}  (measured at the orientation of the panels)
+\item	Number of modules installed in the system = 8
+\item	Module dimensions = $\SI{1650}{\milli\metre}\times\SI{800}{\milli\metre}$
+\item	Module efficiency = \SI{16.5}{\percent}
+\item	Inverter efficiency (average) = \SI{90}{\percent}
+\item	Feed in Tarriff on all generated electricity = \SI{14.38}{\pence\per\kilowatthour}
+\item	Payment for units sold to the grid = \SI{4.7}{\pence\per\kilowatthour}
+\item	Cost of imported electricity = \SI{18}{\pence\per\kilowatthour}
+\end{itemize}
+
+\section*{Questions}
+
+\begin{question}\label{qu:ex1}
+\begin{enumerate} [label=\alph*)]
+\item What is the area of one panel, measured in \si{\metre\squared}
+\item What is the total area of the array?
+\item How many peak sun hours are there at this site?
+\item The system is sold as a \SI{1.7}{\kilowattpeak} system. (This size is the output of the panels – NOT the inverter). Show by calculation, whether this claim is realistic.\\ 
+To do this
+\begin{itemize}
+\item assume that the irradiance is \SI{1000}{\watt\per\metre\squared}  (all peak values refer to this irradiance)
+\item use the total area of the panels to find the total irradiation on the panels
+\item use the quoted efficiency to establish the electrical output of the panels
+\end{itemize}
+
+\item Assuming that the system is exactly \SI{1.7}{\kilowattpeak}, using the data above, estimate the annual electrical output from the inverter.  (you can ignore all other efficiency losses apart from the inverter)\\
+To do this
+\begin{enumerate} [label=\roman*)]
+\item establish the total number of peak sun hours at this site
+\item use the kWp rating and the no of peak sun hours to calculate the energy output of the panels in one year
+\item use the inverter efficiency to establish the electrical output from the inverter
+\end{enumerate}
+
+\item Assuming that the owner exports \SI{50}{\percent} of the generated electricity, calculate the annual payment from the electricity supplier (for generation and export) and the likely annual saving on their electricity bill. (if you cannot do part c, assume that the system will generate \SI{1000}{\kilowatthour} of electricity annually per kWp installed )
+\item If the system is expected to generate for 25 years and the panels are guaranteed to produce \SI{80}{\percent} of their peak output for this time. It might therefore be reasonable to assume that power output will on average be \SI{90}{\percent} of the quoted values over the whole life of the system. Assuming this, estimate
+i.	the likely average annual energy production over the 25 year period 
+ii.	the likely average income / savings per year (ignore inflation)
+iii.	the likely total income from the system if it does last 25 years.
+\item If the system costs £3750 to install, and ignoring inflation or interest on loans, what is the payback time of the system?
+\end{enumerate}
+\end{question}
+
+\begin{solution}\label{sol:ex1}
+\begin{enumerate} [label=\alph*)]
+\item $\text{Area}=1.65\times 0.8=\SI{1.32}{\metre\squared}$
+\item $\text{Total area}=8\times 1.32=\SI{10.56}{\metre\squared}$
+\item 1 peak sun hour delivers \SI{1}{\kilowatthour} of insolation, The annual insolation at the site is \SI{1200}{\kilowatthour} so the site has 1200 peak sun hours per year, which is about 3.3 peak sun hours per day.
+\item \begin{align*}\text{Irradiance\ on\ panels}&=\text{Power\ per\ } \si{metre\squared}\times\text{Area}\\
+&=\SI{1000}{\watt\per\metre\squared}\times\SI{10.56}{\metre\squared}\\
+&=\SI{10560}{W}\\
+&=\SI{10.56}{\kilo\watt}\text{ of sunlight falling on panels under test conditions}
+\end{align*}
+$\text{Electrical output}=0.165\times P_\text{input}=0.165\times 10.56=\SI{1.74}{\kilo\watt}$\\
+which is close to \SI{1.7}{\kilowattpeak}
+\item\begin{enumerate}[label=\roman*)]
+\item 1200 peak sun hours
+\item At peak sun the system will give out \SI{1.7}{\kilo\watt}, so the annual energy output from the panels will be $1200\times1.7=\SI{2040}{\kilowatthour}$
+\item $E_\text{out}\text{ from inverter}=0.9\times 2040=\SI{1836}{\kilowatthour}$
+\end{enumerate}
+\item \begin{align*}\text{Payment for generation}=1836\times 0.1366&=\SI{250.80}[\pounds]{\per\year}\\
+\text{Payment for export}=0.5\times 1836\times0.047 &=\SI{86.29}[\pounds]{\per\year}\\
+\text{Savings on imports}=0.5\times 1836\times0.18 &=\SI{165.24}[\pounds]{\per\year}\\
+\text{Total of payments and savings}&=\textbf{\SI{502.33}[\pounds]{\per\year}}
+\end{align*}
+\item $\text{Payback time}=\frac{\SI{3750}[\pounds]{}}{502.33}=\SI{7.5}{\year}$
+\item \begin{enumerate} [label=\roman*)]
+\item Assume \SI{90}{\percent} of \SI{1836}{\kilowatthour} for 25 years.\\
+$E=0.9\times 1836\times 25=\SI{41310}{\kilowatthour}$
+\item $\text{Total of income and savings per year}=0.9\times \SI{502.33}[\pounds]{}=\SI{452.10}[\pounds]{}$
+\item Total of savings/income over 25 years = \SI{11302}[\pounds]{}
+\end{enumerate}
+\end{enumerate}
+\end{solution}
+
+
+%\printbibliography
+%\pagebreak
+%\section*{Solutions}
+%\printsolutions
+\end{document}

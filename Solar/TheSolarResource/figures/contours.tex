@@ -1,0 +1,57 @@
+\documentclass{standalone}
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+\setlength\PreviewBorder{5mm}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{width=7cm,compat=1.11}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\begin{document}
+    \begin{tikzpicture}[>=stealth]
+
+        \def\juncolor{blue!10!red};
+        \def\aprcolor{blue!30!red};
+        \def\marcolor{blue!50!red};
+        \def\febcolor{blue!70!red};
+        \def\deccolor{blue!90!red};
+        
+        \def\where{Aswan}
+        \def\timezone{GMT +2h}
+        \def\latitude{24.09};
+        \def\longitude{32.9};
+         
+        \begin{axis}[
+        width=14cm, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        legend pos=north east,
+        xmin=45,     % start the diagram at this x-coordinate
+        xmax=315,    % end   the diagram at this x-coordinate
+        ymin=0,     % start the diagram at this y-coordinate
+        ymax=90,   % end   the diagram at this y-coordinate
+        %xticklabel pos=upper,
+        /pgfplots/xtick={45,90,...,315},
+        /pgfplots/ytick={0,10,...,90},
+        axis background/.style={fill=white},
+        ylabel=Solar altitude angle in degrees,
+        xlabel=Solar azimuth angle in degrees,
+        tick align=inside,]
+      
+        
+
+
+%draw the half hour points
+
+        \addplot+[only marks,mark size =1,smooth,\deccolor,mark=o, mark color={},mark repeat=2,mark phase =2] table [col sep=comma,row sep=crcr,x=Az21Dec,y=Sh21Dec] {../data/SolarPositionAswan.csv};  
+
+     
+     
+    
+    \end{tikzpicture}
+
+\end{document}

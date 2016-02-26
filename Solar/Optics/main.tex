@@ -1,0 +1,23 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[a4paper,11pt]{article} % the type of document
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{preamble}
+
+
+\begin{document}
+\begin{figure}
+\centering
+\import{./figures/}{reflection.tex}
+\caption{Caption}
+\label{fig:my_label}
+\end{figure}
+
+\begin{figure}
+\centering
+\import{./figures/}{refraction.tex}
+\caption{Caption}
+\label{fig:my_label}
+\end{figure}
+
+\end{document}

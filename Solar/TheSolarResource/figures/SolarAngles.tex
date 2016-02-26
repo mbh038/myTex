@@ -1,0 +1,47 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{3d}
+\usepackage{tikz-3dplot}
+
+%\usepackage[active,tightpage]{preview}
+%\PreviewEnvironment{tikzpicture}
+%\setlength\PreviewBorder{5pt}%
+
+\begin{document}
+
+
+\tdplotsetmaincoords{70}{110}
+\begin{tikzpicture}[tdplot_main_coords]
+\draw[thick,->] (-3,0,0) -- (3,0,0) node[anchor=north east]{$x$};
+\draw[thick,->] (0,-3,0) -- (0,3,0) node[anchor=north west]{$y$};
+\draw[thick,->] (0,0,-3) -- (0,0,3) node[anchor=south]{$z$};
+
+\draw[green,thick] (0,0,0) circle[x radius=2,y radius=2];
+
+\tdplotsetrotatedcoords{90}{90}{0}
+%\draw[thick,color=blue,tdplot_rotated_coords,->] (0,0,0) --
+%(.7,0,0) node[anchor=north]{$x’$};
+%\draw[thick,color=blue,tdplot_rotated_coords,->] (0,0,0) --
+%(0,.7,0) node[anchor=west]{$y’$};
+%\draw[thick,color=blue,tdplot_rotated_coords,->] (0,0,0) --
+%(0,0,.7) node[anchor=south]{$z’$};
+
+
+%\foreach \mang in {30,60,...,180}
+%{
+%    \tdplotsetrotatedcoords{0}{\mang}{0}
+%    \draw[red,thick,tdplot_rotated_coords] (0,0,0) circle[x radius=2,y radius=2];
+%}
+
+\foreach \lang in {30,60,...,180}
+{
+    \tdplotsetrotatedcoords{\lang}{90}{0}
+    \draw[blue,thick,tdplot_rotated_coords] (0,0,0) circle[x radius=2,y radius=2];
+}
+\tdplotsetrotatedcoords{90}{90}{0}
+\draw[tdplot_rotated_coords] (0,0) rectangle ( 0, 2);
+
+\end{tikzpicture}
+
+ 
+\end{document}

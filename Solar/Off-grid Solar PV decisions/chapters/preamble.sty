@@ -1,0 +1,70 @@
+\ProvidesPackage{preamble}
+%Preamble
+% Some of these are recommended by "9 LaTeX packages everyone should use" http://www.howtotex.com/packages/9-essential-latex-packages-everyone-should-use/, 
+%others were added as I came across the need for them.
+\RequirePackage[l2tabu, orthodox]{nag} % has to go here in the preamble. Checks for obsolete stuff.
+%\documentclass[parskip=half,crop=false]{scrartcl} % the type of document
+%\pagestyle{plain}
+\usepackage[utf8]{inputenc}
+\usepackage[table, usenames, dvipsnames]{xcolor}
+\definecolor{lightgray}{gray}{0.9} % I used this for the table background colour
+\usepackage{multirow} % needed if cells in a table need to span more than one row
+\usepackage{tabu} % makes table columns all have the same width
+\usepackage{verbatim} % make the verbatim environment in which computer code can be printed
+\usepackage[english]{babel} % so that the document follows the conventions of a  particular language eg english.
+\usepackage[documents]{ragged2e}% for aspects of text alignment & justification
+\usepackage{amsmath} % for maths, including align/align*
+\usepackage[a4paper]{geometry} % for adjusting page margins
+%\usepackage[rightcaption]{sidecap}
+\usepackage[font={small},labelfont=bf]{caption}
+\usepackage{graphicx,subfigure} % needed for inserting figures eg \includegraphics
+\graphicspath{ {figures/} } %Name of the folder in the project in which all the images are kept.
+\usepackage{wrapfig}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,positioning,calc,intersections}
+\usetikzlibrary{decorations.markings}
+\tikzstyle arrowstyle=[scale=1]
+\tikzstyle directed=[postaction={decorate,decoration={markings,
+    mark=at position .65 with {\arrow[arrowstyle]{stealth}}}}]
+\tikzstyle reverse directed=[postaction={decorate,decoration={markings,
+    mark=at position .65 with {\arrowreversed[arrowstyle]{stealth};}}}]
+\usepackage{pgfplots}
+\usepackage{microtype} % improves spacing and general look of the document.
+\usepackage{siunitx} % helps typeset units correctly.
+\usepackage{cancel} %???? to make SIunitx work properly?
+\usepackage{colortbl} %???? to make SIunitx work properly?
+\usepackage{datatool} %???? to make SIunitx work properly?
+\usepackage{helvet} %???? to make SIunitx work properly?
+\usepackage{mathpazo}  %???? to make SIunitx work properly?
+\usepackage{multirow} %???? to make SIunitx work properly?
+\usepackage{listings} %???? to make SIunitx work properly?
+\usepackage{xcolor} %???? to make SIunitx work properly?
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\kilowattpeak{kW_P}
+\DeclareSIUnit\year{y}
+\DeclareSIUnit\north{N}
+\DeclareSIUnit\south{S}
+\usepackage{mhchem}
+\usepackage{booktabs} % a way of creating tables without vertical separators. I haven't used this yet, and I don't think it is essential.
+\usepackage[
+backend=biber,
+style=authoryear,
+sorting=ynt
+]{biblatex} % needed for citations and references
+\usepackage{csquotes} % recommended for use with biblatex
+\usepackage{xpatch} % recommended for use with biblatex
+\addbibresource{references.bib} % name of the references file
+\usepackage{gensymb} % not sure. Makes some symbols work.
+\usepackage{textcomp} % makes some other symbols work
+\usepackage{hyperref} % needed for hyperlinks, internal and external. Needs to go at the end of the preamble, except for a few things eg cleveref
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+} % style of the hyperlinks
+\urlstyle{same}
+\usepackage{cleveref}
+%\usepackage{exercise} % does all the things with exercises and solutions.
+\usepackage{exsheets} % does all the things with exercises and solutions.
+\usepackage{enumitem}

@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{intersections,arrows,calc}
+
+
+\begin{document}
+
+\colorlet{crystal}{blue!75}
+\def\yangle{30}
+\def\xangle{-30}
+
+\begin{tikzpicture}[x=(\xangle:1.cm), y=(\yangle:1cm), z=(90:1.0 cm),
+    >=stealth, line cap=round, line join=round,
+    lines/.style={gray!50, thick}, 
+    axis/.style={black, thick,->},
+    plate/.style={fill, opacity=0.875},
+    markers/.style={orange, thick},
+    wave/.style={thick,color=#1,smooth}]
+
+    
+
+
+\begin{scope}[xscale=1.0, yscale=1.0]
+   % \path [crystal!25, plate] 
+        %(-1,-1,0) -- (-1,1,0) -- (1,1,0) -- (1,-1, 0) -- cycle;
+    %\path [crystal!25, plate] 
+        %(0,-1,-1) -- (0,-1,1) -- (0,1,1,) -- (0,1,-1) -- cycle;
+    \path [crystal!25, plate] 
+        (-1,-1,0) -- (1,-1,0) -- (1,1,0) -- (-1,1,0) -- cycle;
+
+  
+  \draw[red,->] (-1,0,1) --  (0,0,0) -- (1,0,1);
+\end{scope}
+
+\begin{scope} [shift={ (0,6,0)},scale=1.0]
+  \draw[axis] (0,0,0) -- (1,0,0) node[right] {$x$};  
+  \draw[axis] (0,0,0) -- (0,1,0) node[right] {$y$};  
+  \draw[axis] (0,0,0) -- (0,0,1) node[above] {$z$}; 
+\end{scope}
+
+
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,55 @@
+\documentclass[article]{standalone}
+\usepackage[subpreambles=false]{standalone}
+\usepackage{preamble}
+\usepackage{import}
+\usepackage{graphicx,subfigure}
+
+
+\begin{document}
+\section{Key Decisions}\label{sec:KeyDecisions}
+\begin{enumerate}
+    \item What loads are going to be used?\begin{enumerate}
+        \item	240V AC -  Uses same electrical installation as grid supplied electricity (i.e uses cheap and readily available circuitry) and appliances are easy to find and cheap. Does require an inverter though but losses for high power demand are lower since transmission voltage in the property is higher 
+        \item	12V DC – Quite a few appliances available but expensive and less common than 240VAC appliances. Large cabling losses if system is designed to give high power.
+        \item	24V DC – Less losses in cabling but fewer appliances available than 12V or 240V
+    \end{enumerate}
+    \item What system voltage?\begin{enumerate}
+        \item	12V if small system only
+        \item	24V or 48V if cable runs are long and / or $> \SI{1}{\kilo\watt}$ inverter is to be used – most domestic systems will be 24V
+    \end{enumerate}
+    \item What is projected energy use for system?\begin{enumerate}
+        \item	calculate likely energy use for system on a daily basis
+        \item	convenient to do this for AC and DC loads separately
+        \item	convenient to express this in Wh per day
+        \item	Energy supplied from battery ( Wh )= battery voltage (Volts) x Battery capacity (Amp Hours).
+    \end{enumerate}
+    \item What type of battery system\begin{enumerate}
+        \item	Flooded lead acid batteries are most common 
+        \item	Gel batteries or other types (e.g. flooded NiCd) can be used but are generally more expensive for same storage capacity
+    \end{enumerate}
+    \item What depth of discharge do you want to plan for with the batteries?\begin{enumerate}
+        \item	allowing a greater depth of discharge means a smaller battery system but will mean that the batteries won’t last as long
+    \end{enumerate}
+    \item What are the peak/continuous power requirements  that the system will have to deal with?\begin{enumerate}
+        \item	Inductive loads (i.e. motors) can have starting currents that are up to 3X the current in use. Use this to establish the peak load for a very short time.
+        \item	How many devices might be switched on together for a short time? This might be the peak load for say 30 min
+        \item	How many devices will be running continuously? Use this to establish the continuous load.
+    \end{enumerate}
+    \item How many days of autonomy do you require?\begin{enumerate}
+        \item	The more days of autonomy, the less likely you are to run out of stored energy
+        \item	What backup do you have if you run out?
+    \end{enumerate}
+    \item What season do you require your system to be designed for?\begin{enumerate}
+        \item	Summer obviously requires less panel area
+        \item	Is it realistic to size for autonomy during winter?
+    \end{enumerate}
+    \item Lifestyle?\begin{enumerate}
+        \item 	Are there changes to your lifestyle that would make an off grid system more viable?
+    \end{enumerate}
+    \item Inverter type\begin{enumerate}
+        \item Modified square wave is cheaper but not all things run perfectly with one
+        \item	Sine wave is more expensive but will run most things properly.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,65 @@
+\documentclass{standalone}
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\usepackage{amsmath}
+%
+\begin{document}
+\def\c{2.997e8} %speed of light in a vacuum
+\def\k{1.38065e-23} %Boltzmann's constant
+\def\h{6.6261e-34} %Planck's constant
+\def\pi{3.14157} %pi
+\def\r{6.96e8} % radius of sun in m
+\def\R{1.5e11} %average sun-earth radius in m
+%
+
+\tikzstyle{every pin edge}=[>=stealth,<-,shorten <=1pt,very thin,
+font=\footnotesize]
+%
+\begin{tikzpicture}[>=stealth]
+    \begin{axis}[
+        width=14cm, height=8cm,     % size of the image
+        %grid = major,
+        %grid style={dashed, gray!30},
+        legend entries={$T=\SI{2000}{K}$,$T=\SI{1500}{K}$},
+        legend pos=north east,
+        %xmode=log,log basis x=10,
+        %ymode=log,log basis y=10,
+        xmin=0,     % start the diagram at this x-coordinate
+        xmax=10000,    % end   the diagram at this x-coordinate
+        ymin=0.0,     % start the diagram at this y-coordinate
+        ymax=10,   % end   the diagram at this y-coordinate
+        %y tick label style={/pgf/number format/.cd,%
+          %scaled y ticks = false,
+          %set decimal separator={.},
+          %fixed},
+      x tick label style={/pgf/number format/.cd,%
+          scaled x ticks = false,
+          set thousands separator={},
+          fixed},%
+        %/pgfplots/xtick={0,2000,...,10000}, % make steps of length 500 nm
+       %/pgfplots/ytick={0,1,...,10},
+       % extra x ticks={0.53},
+        %extra y ticks={0.507297},
+        axis background/.style={fill=white},
+        ylabel=Spectral density (\si{\milli\watt\per\metre\squared\per\nano\metre}),
+        xlabel=Wavelength  (\si{\nano\metre}),
+        tick align=inside,
+        axis on top]
+
+        %plot the Planck formula for T=2000K
+       \addplot[fill,domain=0:10000, samples=200,blue, thick] expression
+       {1000*(1e-9*(\r/\R)^2)*(2*\pi*(\c^2)*\h/((x*1e-9)^5))*(1/(e^(\h*\c/((1e-9*x)*\k*2000))-1))};
+       
+       %plot the Planck formula for T=1500K
+       \addplot[fill,domain=0:10000, samples=200,red, thick] expression
+       {1000*(1e-9*(\r/\R)^2)*(2*\pi*(\c^2)*\h/((x*1e-9)^5))*(1/(e^(\h*\c/((1e-9*x)*\k*1500))-1))};
+
+       \end{axis} 
+\end{tikzpicture}
+\end{document}

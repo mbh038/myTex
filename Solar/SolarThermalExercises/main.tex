@@ -1,0 +1,198 @@
+%Preamble
+% Some of these are recommended by "9 LaTeX packages everyone should use" http://www.howtotex.com/packages/9-essential-latex-packages-everyone-should-use/, 
+%others were added as I came across the need for them.
+\RequirePackage[l2tabu, orthodox]{nag} % has to go here in the preamble. Checks for obsolete stuff.
+\documentclass{article} % the type of document
+\pagestyle{plain}
+\usepackage[utf8]{inputenc}
+\usepackage[table, usenames, dvipsnames]{xcolor}
+\definecolor{lightgray}{gray}{0.9} % I used this for the table background colour
+\usepackage{multirow} % needed if cells in a table need to span more than one row
+\usepackage{tabu} % makes table columns all have the same width
+\usepackage{verbatim}
+\usepackage[english]{babel} % so that the document follows the conventions of a  particular language eg english.
+\usepackage[documents]{ragged2e}
+\usepackage{amsmath} % for maths including align/align*
+\usepackage[a4paper]{geometry} % for adjusting page margins
+\usepackage[rightcaption]{sidecap}
+\usepackage[skip=true,justification=justified,singlelinecheck=false,font=small,format=plain,labelfont=bf,up,textfont=normal,up]{caption}
+\usepackage{graphicx} % needed for inserting figures eg \includegraphics
+\graphicspath{ {figures/} } %Name of the folder in the project in which all the images are kept.
+\usepackage{microtype} % improves spacing and general look of the document.
+\usepackage{siunitx} % helps with units and numbers
+\DeclareSIUnit\pence{p}
+\DeclareSIUnit\kilowatthour{kWh}
+\usepackage{booktabs} % a way of creating tables without vertical separators. I haven't used this yet, and I don't think it is essential.
+\usepackage[
+backend=biber,
+style=authoryear,
+sorting=ynt
+]{biblatex} % needed for citations and references
+\addbibresource{references.bib} % name of the references file
+\usepackage{gensymb} % not sure. Makes some symbols work.
+\usepackage{csquotes}
+\usepackage{hyperref} % needed for hyperlinks, internal and external. Needs to go at the end of the preamble, except for a few things eg cleveref
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+} % style of the hyperlinks
+\urlstyle{same}
+\usepackage{cleveref}
+%\usepackage{exercise} % does all the things with exercises and solutions.
+\usepackage{exsheets} % does all the things with exercises and solutions.
+\usepackage{enumitem}
+
+%\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+% Title stuff
+\title{Questions on Solar thermal heating}
+\author{Michael Hunt}
+\date{}
+
+
+\begin{document}
+\maketitle
+
+\section*{Data}
+
+Specific heat of water $c$ = \SI{4.18}{\kilo\joule\per\kg\per\celsius}\\
+Density of water $\rho$ = \SI{1000}{\kg\per\metre\cubed}\\
+For solar resource data for Camborne, use the data provided in the spreadsheet "Mean monthly radiation"
+
+\section*{Exercises}
+
+\begin{question}\label{qu:ex1}
+Estimate how much energy would be needed to heat the water in the following:
+    \begin{enumerate}[label=\alph*)]
+        \item A typical bath
+        \item A washing machine which uses \SI{10}{\litre} every wash and rinse. Each cycle has 1 wash and 2 rinses at \SI{30}{\celsius} 
+        \item A typical shower
+        \item Washing up the dishes after a meal
+    \end{enumerate}
+\end{question} 
+\begin{solution}\label{sol:ex1}
+    \begin{enumerate}[label=\alph*)]
+        \item A typical bath: assume inlet temperature of \SI{10}{\celsius} and a bath water temperature of \SI{40}{\celsius}.
+            \begin{align*}
+            \text{water\ volume} V&=0.15\times 0.4\times 1.4 = \SI{0.084}{\metre\cubed}\\
+            \text{water\ mass}&=\rho V=1000\times 0.084=\SI{84}{\kg}\\
+            \text{energy\ required } Q &=mc\Delta\theta\\
+            &=0.084\times 4.18\times (40-10)\\
+            &=\SI{10.6}{\mega\joule}\approx 3\ \text{kWh} \ (\SI{50}{\pence})
+            \end{align*}
+        \item A washing machine which uses \SI{10}{\litre} every wash and rinse. Each cycle has 1 wash and 2 rinses at \SI{30}{\celsius}
+            \begin{align*}
+            \text{mass}\ m &=\SI{30}{\kg}\\
+            Q &=mc\Delta\theta\\
+            &=30\times\ 4.18\ (30-10)\\
+            &=\SI{2520}{\kilo\joule}\approx 0.7\ \text{kWh} \ (\SI{11}{\pence})
+            \end{align*}
+        \item A typical shower
+            Assume flow rate of \SI{5}{\litre\per\minute} and that shower lasts 5 minutes, so 25 litre of water, which weighs 25 kg.
+            \begin{align*}
+            Q &=mc\Delta\theta\\
+            &=25\times 4.18\times (40-10)\\
+            &=\SI{3135}{\kilo\joule}\approx 0.9 \text{kWh} \ (\SI{14}{\pence})
+            \end{align*}
+        \item Washing up the dishes after a meal
+            \text{Water temperature probably close to }\SI{50}{\celsius}
+            \begin{align*}
+            \text{water\ volume\ } V&=0.15\times 0.4\times 0.5 = \SI{0.03}{\metre\cubed}\\
+            \text{water\ mass}&=\rho V=1000\times 0.03=\SI{30}{\kg}\\
+            \text{energy\ required } Q &=mc\Delta\theta\\
+            &=30\times 4.18\times (50-10)\\
+            &=\SI{5016}{\kilo\joule}\approx 1.4\  \text{kWh} \ (\SI{22}{\pence})  
+            \end{align*}
+    \end{enumerate}
+\end{solution}
+
+\begin{question}\label{qu:ex2}
+Estimate how much water could be heated in one day by \SI{1}{\metre\squared} of solar thermal panels on a roof in Camborne
+    \begin{enumerate}[label=\alph*)]
+        \item in the summer
+        \item in the spring
+        \item in winter
+    \end{enumerate}
+\end{question}
+\begin{solution}
+    \begin{enumerate}[label=\alph*)]
+        \item Summer irradiation $\approx \SI{5.5}{\kilowatthour\per\metre\squared\per\day}$\\
+        \SI{1}{\metre\squared} of collector would collect $5.5 \times \eta\ \si{\kilowatthour\per\day}$\
+        \text{Assume\ }$\eta=0.6$\\
+        \begin{align*}
+        E&=5.5\eta\\
+        &=\SI{3.3}{\kilowatthour\per\day}\approx \SI{11880}{\kilo\joule}\\
+        Q&=mc\Delta\theta\\
+        \end{align*}
+        $\text{Assume\ } \Delta\theta=\SI{50}{\celsius}\text{\ from\ }\SI{10}{\celsius}\text{\ inlet,\ } \SI{60}{\celsius}\text{\ store temperature.}$\\
+    \begin{align*}
+    m&=\frac{Q}{c\Delta\theta}\\
+   &=\frac{11880}{4.18\times 50}\\
+    &=\SI{56.8}{\kg}\text{\ so\ about\ }\SI{57}{\litre}
+    \end{align*}
+        \item In spring daily irradiation $\approx  \SI{3}{\kilowatthour\per\metre\squared\per\day}$ so from previous answer, volume of water that can be heated $\approx\frac{3}{5.5}\times 57=\SI{31}{\litre}$
+        \item in winter irradiation $< \SI{1}{\kilowatthour\per\metre\squared\per\day}$ so water volume that can be heated is at most $\approx\frac{1}{5.5}\times 57\approx\SI{10}{\litre}$
+    \end{enumerate}
+Actually, summer $\eta$ probably higher than 0.6 and winter $\eta$ probably less than 0.6, since irradiance is higher in summer and thermal losses would be lower. So, probably, summer heatable volume of water $> \SI{57}{\litre}$ and winter heatable volume $< \SI{10}{\litre}$
+\end{solution}
+
+\begin{question}\label{qu:ex3}
+Based on your answers to question \ref{qu:ex2}, estimate the area of solar thermal panels that would be needed on a roof in Camborne to supply the hot water requirement of an average household:
+    \begin{enumerate}[label=\alph*)]
+        \item in the summer
+        \item in the spring
+        \item in winter
+    \end{enumerate}
+\end{question}
+\begin{solution}
+Assume the household hot water requirement $\approx \SI{150}{\litre\per\day}$. Thus the area of collector required to provide \emph{all} of this would be
+    \begin{enumerate}[label=\alph*)]
+        \item in the summer: $\approx \SI{3}{\metre\squared}$
+        \item in the spring: $\approx \SI{5}{\metre\squared}$
+        \item in winter: $\approx \SI{15}{\metre\squared}$
+    \end{enumerate}
+\end{solution}
+
+\begin{question}
+Show that a pump flow rate of 30-50 \si{\litre\per\hour} is reasonable in a solar thermal system in Camborne with \SI{4}{\metre\squared}, of collector area
+\end{question}
+\begin{solution}
+If the maximum max solar intensity $\approx$ \SI{1000}{\watt\per\metre\squared}, collector area is \SI{4}{\metre\squared} and max.efficiency is $\eta \approx 0.7$ then max rate of energy capture is \SI{700}{\watt\metre\squared}, so about  \SI{2800}{\watt} in total. Mass of water that can be heated by \SI{50}{\celsius} per second will be
+\begin{align*}
+m&=\frac{Q}{c\Delta\theta}\\
+&=\frac{2800}{4180\times 50}\\
+&=\SI{0.013}{\kg\per\second}
+\end{align*}
+This is the required mass flow rate in the system. Since \SI{1}{\kg} of water has volume \SI{1}{\litre} the required volume flow rate is $\SI{0.013}{\litre\per\second}=3600\times 0.013= \SI{48}{\litre\per\hour}$
+\end{solution}
+
+\begin{question}
+Show that for a swimming pool, a collector area of about 40\% of the pool area is reasonable.
+\end{question}
+\begin{solution}
+First estimate heat $Q$ required per \si{\metre\squared} to heat pool up at start of season: if average depth =\SI{1.2}{\metre}, and $\Delta\theta = \SI{10}{\celsius}$ then
+\begin{align*}
+Q&=mc\Delta\theta\\
+&=\rho Vc\Delta\theta\\
+&=1000\times 1.2\times4.18\times10\\
+&=\SI{50.16}{\mega\joule}\\&=\SI{13.9}{\kilowatthour}
+\end{align*}
+Suppose now that the the pool would cool down to ambient temperature in 10 days due to heat losses by conduction, convection and radiation. (This is a guess - we must do further work to refine it, but let's start here.) The rate of heat loss per square metre per day would therefore be $Q_\text{loss}=\frac{\SI{13.9}{\kilowatthour}}{10}=\SI{1.4}{\kilowatthour\per\day}$ If the irradiance during the summer months is \SI{5.5}{\kilowatthour\per\metre\squared} (true for southern England - subsititute another value for elsewhere) and if the efficiency of the solar collector system is $\eta=0.6$ then the energy collected per \si{\metre\squared} of collector would be
+\begin{align*}
+Q_\text{in}&=5.5\times\eta\\
+&=5.5\times 0.6\\
+&=\SI{3.3}{\kilowatthour\per\metre\squared}
+\end{align*}
+The area $A$ of collector required to make good thermal losses from each \SI{1}{\metre\squared} of the pool is thus
+\begin{align*}
+A&=\frac{1.39}{3.3}\\
+&=\SI{0.42}{\metre\squared}
+\end{align*}
+Hence a collector area about 40\% of the pool area would be reasonable, \emph{if} the assumptions made hold good.
+\end{solution}
+
+%\printbibliography
+\section*{Solutions}
+\printsolutions
+\end{document}

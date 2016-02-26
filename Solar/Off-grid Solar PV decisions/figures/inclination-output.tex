@@ -1,0 +1,74 @@
+\documentclass{standalone}
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\kilowattpeak{kW_P}
+\DeclareSIUnit\year{y}
+\usepackage{amsmath}
+%
+\begin{document}
+\def\c{2.997e8} %speed of light in a vacuum
+\def\k{1.38065e-23} %Boltzmann's constant
+\def\h{6.6261e-34} %Planck's constant
+\def\pi{3.14157} %pi
+\def\r{6.96e8} % radius of sun in m
+\def\R{1.5e11} %average sun-earth radius in m
+%
+\tikzstyle{every pin edge}=[>=stealth,<-,shorten <=1pt,very thin,
+font=\footnotesize]
+%
+\begin{tikzpicture}[>=stealth,shading=rainbow]
+    \begin{axis}[
+        width=14cm, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+       legend entries={Oslo,St Agnes,Abidjan,Jo'burg},
+       legend pos=north east,
+        %xmode=log,log basis x=10,
+        %ymode=log,log basis y=10,
+        xmin=0,     % start the diagram at this x-coordinate
+        xmax=90,    % end   the diagram at this x-coordinate
+        ymin=0,     % start the diagram at this y-coordinate
+        ymax=1800,   % end   the diagram at this y-coordinate
+        y tick label style={/pgf/number format/.cd,%
+          scaled y ticks = false,
+          set decimal separator={.},
+          fixed},
+      x tick label style={/pgf/number format/.cd,%
+          scaled x ticks = false,
+          set thousands separator={},
+          fixed},%
+        /pgfplots/xtick={0,10,...,90}, % make steps of length 500 nm
+       /pgfplots/ytick={0,200,...,1800},
+       % extra x ticks={0.53},
+        %extra y ticks={0.507297},
+        axis background/.style={fill=white},
+        ylabel=Annual Output (\si{\kilowatthour\per\kilowattpeak\per\year}),
+        xlabel=Inclination angle  (\si{\degree}),
+        tick align=inside,
+        axis on top]
+
+      \coordinate (Hbottom) at (axis cs:0,0);
+      \coordinate (Vbottom) at (axis cs:90,0);
+
+      
+      % import the correct data from a CSV file
+    \addplot[mark=none,gray!80] table [col sep=comma,row sep=crcr,y=Oslo] {../data/1kWp-kWh-vs-inclination.csv};
+    \addplot[mark=none,red!80] table [col sep=comma,row sep=crcr,y=St-Agnes] {../data/1kWp-kWh-vs-inclination.csv};
+    \addplot[mark=none,blue!80] table [col sep=comma,row sep=crcr,y=Abidjan] {../data/1kWp-kWh-vs-inclination.csv};
+    \addplot[mark=none,green!80] table [col sep=comma,row sep=crcr,y=Joburg] {../data/1kWp-kWh-vs-inclination.csv};
+     
+        \coordinate (horizontal) at (axis cs:0,1000);
+        \coordinate (vertical) at (axis cs:90,1000);
+        \path  (Hbottom) -- node [sloped,below,,] {\scriptsize Horizontal} (horizontal);
+         \path  (Vbottom) -- node [sloped,above,] {\scriptsize Vertical} (vertical);      
+        
+       \end{axis} 
+\end{tikzpicture}
+\end{document}

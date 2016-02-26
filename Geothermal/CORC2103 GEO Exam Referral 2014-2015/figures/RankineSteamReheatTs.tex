@@ -1,0 +1,178 @@
+% T-s saturation curve for water
+
+% Rankine cycle with reheat
+
+% Conventional Steam plant
+
+\documentclass{standalone}
+\usepackage[subpreambles=true]{standalone}
+%\usepackage{preamble}
+\usepackage{import}
+
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+%\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable} % For \pgfplotstableread
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{gensymb}
+\usepackage{comment}
+
+\usetikzlibrary{arrows,shapes,positioning,calc,intersections}
+\usetikzlibrary{decorations.markings}
+\tikzstyle arrowstyle=[scale=1]
+\tikzstyle directed=[postaction={decorate,decoration={markings,
+    mark=at position .5 with {\arrow[arrowstyle]{stealth}}}}]
+\tikzstyle reverse directed=[postaction={decorate,decoration={markings,
+    mark=at position .5 with {\arrowreversed[arrowstyle]{stealth};}}}]
+    
+\pgfplotsset{
+    axis line style={gray!80},
+    every axis label/.append style ={black!80},
+    every tick label/.append style={black!80}  
+  }
+    
+% Unit definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\megawatthour{MWh}
+\DeclareSIUnit\kilowattpeak{kW_P}
+\DeclareSIUnit\kVA{kVA}
+\DeclareSIUnit\kVAR{kVAR}
+\DeclareSIUnit\rpm{rpm}
+\DeclareSIUnit\year{y}
+\DeclareSIUnit\north{N}
+\DeclareSIUnit\south{S}
+\DeclareSIUnit\second{s}
+\DeclareSIUnit\pence{p}
+\DeclareSIUnit\pound{£}
+
+% Constant definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\def\c{2.997e8} %speed of light in a vacuum
+\def\k{1.38065e-23} %Boltzmann's constant
+\def\h{6.6261e-34} %Planck's constant
+\def\pi{3.14157} %pi
+\def\r{6.96e8} % radius of sun in m
+\def\R{1.5e11} %average sun-earth radius in m
+
+\tikzstyle{every pin edge}=[>=stealth,<-,shorten <=1pt,very thin,font=\footnotesize]
+%
+\begin{tikzpicture}[>=stealth,shading=rainbow]
+
+    \begin{axis}[
+        thin,
+        %ymode=log,
+        width=7cm,
+        height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!50},
+        %legend entries={Reflected,Transmitted},
+        xmin=-1,     % start the diagram at this x-coordinate
+        xmax=10,    % end   the diagram at this x-coordinate
+        ymin=0,     % start the diagram at this y-coordinate
+        ymax=550,   % end   the diagram at this y-coordinate
+        y tick label style={/pgf/number format/.cd,%
+        scaled y ticks = false,
+        set decimal separator={.},
+        fixed},
+        x tick label style={/pgf/number format/.cd,%
+        scaled x ticks = false,
+        set thousands separator={},
+        fixed},
+        /pgfplots/xtick={0,1,...,10},
+        /pgfplots/ytick={0,100,...,500},
+        axis background/.style={fill=white},
+        ylabel=$T$ (\si{\celsius}),
+        xlabel=Specific entropy $s$  (\si{\kJ\per\kg\per\kelvin}),
+        tick align=inside,
+ after end axis/.code={
+        % Draw cycle
+            \draw[red,directed,thick] (axis cs:0.89,67.38) -- (axis cs:3.36,311)             node[midway,left,font=\footnotesize]{boiler};
+            \draw[red,directed,thick] (axis cs:3.36,311) -- (axis cs:5.62,311);
+            \draw[red,directed,thick] (axis cs:5.62,311) -- (axis cs:6.6,500);
+            \draw[red,directed,thick] (axis cs:6.6,500) -- (axis cs:6.6,178.1) node[near start,above,font=\footnotesize,sloped]{turbine 1};
+            \draw[red,directed,thick] (axis cs:6.6,178.1) -- (axis cs:7.79,500);
+            \draw[red,directed,thick] (axis cs:7.79,500) -- (axis cs:7.79,67.64) node[midway,above,font=\footnotesize,sloped]{turbine 2};
+            \draw[red,directed,thick] (axis cs:7.79,67.64) -- (axis cs:0.89,67.64) node[midway,below,font=\footnotesize]{condenser};
+            \node[left,red,font=\footnotesize] at (axis cs:0.89,67.38) {pump};
+            \node[above,red,font=\footnotesize] at (axis cs:7.5,500) {2 $\times$ superheat};
+            }
+        ]
+
+        
+    % Plot dryness fraction lines
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg9010,y=T] {./data/water-steam-saturation.csv};
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg8020,y=T] {./data/water-steam-saturation.csv} node[at start,above,font=\tiny,green] {20\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg7030,y=T] {./data/water-steam-saturation.csv}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg6040,y=T] {./data/water-steam-saturation.csv} node[at start,above,font=\tiny,green] {40\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg5050,y=T] {./data/water-steam-saturation.csv}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg4060,y=T] {./data/water-steam-saturation.csv} node[at start,above,font=\tiny,green] {60\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg3070,y=T] {./data/water-steam-saturation.csv}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg2080,y=T] {./data/water-steam-saturation.csv} node[at start,above,font=\tiny,green] {80\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg1090,y=T] {./data/water-steam-saturation.csv}; 
+
+      % Plot saturation line
+        \addplot+[mark=none,blue!80,thick,solid] table [col sep=comma,x=sf,y=T] {./data/water-steam-saturation.csv};
+        \addplot+[mark=none,blue!80,thick,solid] table [col sep=comma,x=sg,y=T] {./data/water-steam-saturation.csv};
+        
+        \end{axis} 
+   
+    
+\end{tikzpicture}
+
+\end{document}
+
+
+	        Boiler	Condenser	
+Pressure	10000	20	    kPa
+Temperature	311	    60.06	°C
+hf	        1407.9	251.4	 kJ kg-1
+hg	        2725.5	2608.9	 kJ kg-1
+sf	        3.36	0.832	kJ K-1 kg-1
+sg	        5.616	7.907	 kJ K-1 kg-1
+vf      	0.00145	0.001017191	
+
+
+0.89,67.38
+3.36,311
+5.62,311
+6.6,500
+6.6,178.1
+7.79,500
+7.79,67.64
+0.89,67.64
+0.89,67.38
+
+
+
+ \begin{comment}
+ after end axis/.code={
+        % Draw cycle
+            \draw[red,directed,thick] (axis cs:67.38,0.89) -- (axis cs:311,3.36) node[midway,above,font=\footnotesize]{boiler};
+            \draw[red,directed,thick] (axis cs:311,3.36) -- (axis cs:311,5.62) node[midway,right,font=\footnotesize]{turbine 1};
+            \draw[red,directed,thick] (axis cs:311,5.62) -- (axis cs:500,6.6);
+            \draw[red,directed,thick] (axis cs:500,6.6) -- (axis cs:178.1,6.6) node[midway,right,font=\footnotesize]{turbine 2};
+            \draw[red,directed,thick] (axis cs:178.1,6.6) -- (axis cs:500,7.79) node[midway,below,font=\footnotesize]{condenser};
+            \draw[red,directed,thick] (axis cs:500,7.79) -- (axis cs:67.64,7.79) node[midway,right,font=\footnotesize]{pump};
+            \node[left,red] at (axis cs:67.38,0.89) {1};
+            \node[right,red] at (axis cs:311,3.36) {2};
+            }
+\end{comment}
+
+
+ after end axis/.code={
+        % Draw cycle
+            \draw[red,directed,thick] (axis cs:67.38,0.89) -- (axis cs:311,3.36) node[midway,above,font=\footnotesize]{boiler};
+            \draw[red,directed,thick] (axis cs:311,3.36) -- (axis cs:311,5.62) node[midway,right,font=\footnotesize]{turbine 1};
+            \draw[red,directed,thick] (axis cs:311,5.62) -- (axis cs:500,6.6);
+            \draw[red,directed,thick] (axis cs:500,6.6) -- (axis cs:178.1,6.6) node[midway,right,font=\footnotesize]{turbine 2};
+            \draw[red,directed,thick] (axis cs:178.1,6.6) -- (axis cs:500,7.79) node[midway,below,font=\footnotesize]{condenser};
+            \draw[red,directed,thick] (axis cs:500,7.79) -- (axis cs:67.64,7.79) node[midway,right,font=\footnotesize]{pump};
+            \node[left,red] at (axis cs:67.38,0.89) {1};
+            \node[right,red] at (axis cs:311,3.36) {2};
+            }

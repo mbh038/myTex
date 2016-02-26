@@ -1,0 +1,184 @@
+%Preamble
+% Some of these are recommended by "9 LaTeX packages everyone should use" http://www.howtotex.com/packages/9-essential-latex-packages-everyone-should-use/, 
+%others were added as I came across the need for them.
+\RequirePackage[l2tabu, orthodox]{nag} % has to go here in the preamble. Checks for obsolete stuff.
+\documentclass{article} % the type of document
+\pagestyle{plain}
+\usepackage[utf8]{inputenc}
+\usepackage[table, usenames, dvipsnames]{xcolor}
+\definecolor{lightgray}{gray}{0.9} % I used this for the table background colour
+\usepackage{multirow} % needed if cells in a table need to span more than one row
+\usepackage{tabu} % makes table columns all have the same width
+\usepackage{verbatim}
+\usepackage[english]{babel} % so that the document follows the conventions of a  particular language eg english.
+\usepackage[documents]{ragged2e}
+\usepackage{amsmath} % for maths including align/align*
+\usepackage[a4paper]{geometry} % for adjusting page margins
+\usepackage[rightcaption]{sidecap}
+\usepackage[skip=true,justification=justified,singlelinecheck=false,font=small,format=plain,labelfont=bf,up,textfont=normal,up]{caption}
+\usepackage{graphicx} % needed for inserting figures eg \includegraphics
+\graphicspath{ {figures/} } %Name of the folder in the project in which all the images are kept.
+\usepackage{microtype} % improves spacing and general look of the document.
+\usepackage{siunitx} % helps with units and numbers
+\DeclareSIUnit\pence{p}
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\kilowattpeak{kW_p}
+\usepackage{booktabs} % a way of creating tables without vertical separators. I haven't used this yet, and I don't think it is essential.
+\usepackage[
+backend=biber,
+style=authoryear,
+sorting=ynt
+]{biblatex} % needed for citations and references
+\addbibresource{references.bib} % name of the references file
+\usepackage{gensymb} % not sure. Makes some symbols work.
+\usepackage{csquotes}
+\usepackage{hyperref} % needed for hyperlinks, internal and external. Needs to go at the end of the preamble, except for a few things eg cleveref
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+} % style of the hyperlinks
+\urlstyle{same}
+\usepackage{cleveref}
+%\usepackage{exercise} % does all the things with exercises and solutions.
+\usepackage{exsheets} % does all the things with exercises and solutions.
+\usepackage{enumitem}
+
+%\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+% Title stuff
+\title{Questions on Solar PV data sheets}
+\author{Michael Hunt}
+\date{}
+
+
+\begin{document}
+\maketitle
+
+%\section*{Data}
+
+%Specific heat of water $c$ = \SI{4.18}{\kilo\joule\per\kg\per\celsius}\\
+%Density of water $\rho$ = \SI{1000}{\kg\per\metre\cubed}\\
+%For solar resource data for Camborne, use the data provided in the spreadsheet %"Mean monthly radiation"
+
+\section*{Exercises}
+\begin{question}\label{qu:ex1}
+From the datasheets for the BP350J PV module, answer the following questions
+    \begin{enumerate}[label=\alph*)]
+    \item	What is the maximum power output at standard test conditions?
+    \item	What is the Voltage at which $P_\text{max}$ is obtained?
+    \item	What is the Fill Factor of the panel?
+    \item	What is the surface area of the irradiated part of the panel (i.e. the aperture)?
+    \item	What is the surface area of the whole panel including the frame?
+    \item	At standard test conditions, what is the efficiency of the silicon material (for this use the aperture area)
+    \item	At standard test conditions, what is the efficiency of the whole panel (for this use the whole area including the frame)
+    \item	Using the temperature coefficient of power, estimate the $P_\text{max}$ value at
+        \begin{itemize}
+        \item	\SI{0}{\celsius}
+        \item	\SI{45}{\celsius}
+        \end{itemize}
+    \item	If the panel is operated at \SI{12}{V} (i.e. to charge a battery), use the $IV$ curve to estimate its power output under standard test conditions. Why might a DC to DC converter be necessary in a charge controller?
+    \end{enumerate}
+\end{question}
+
+\begin{solution}\label{sol:ex1}
+    \begin{enumerate}[label=\alph*)]
+    \item	$P_\text{max}$=\SI{50}{W}
+    \item	$V$ at $P_\text{max}$= \SI{17.5}{V}
+    \item	$FF=\frac{P_\text{max}}{V_\text{OC}\times I_\text{SC}}=\frac{50}{21.8\times 3.17}=0.72$
+    \item $\text{length}=839-(2\times 11.1)=\SI{816.8}{\milli\metre}=\SI{0.8168}{\metre}$\\
+    $\text{width}=537-(2\times 11.1)=\SI{514.8}{\milli\metre}=\SI{0.5148}{\metre}$\\
+    $\text{area}=0.8168\times 0.5148=\SI{0.420}{\metre\squared}$
+    \item $\text{area}=0.839\times 0.537=\SI{0.451}{\metre\squared}$
+    \item $\eta=\frac{P_\text{out}}{P_\text{in}}=\frac{P_\text{out}}{\text{irradiance}}=\frac{50}{0.42\times 1000}=\SI{11.9}{\percent}$
+    \item $\eta=\frac{P_\text{out}}{P_\text{in}}=\frac{P_\text{out}}{\text{irradiance}}=\frac{50}{0.45\times 1000}=\SI{11.1}{\percent}$
+    \item $P_\text{max}$ decreases by \SI{0.5}{\percent} per \si{\celsius} increase in temperature. The standard test conditions are at \SI{25}{\celsius}.
+        \begin{itemize}
+        \item	This means that at \SI{0}{\celsius } $P_\text{max}$ \emph{increases} from the STC value by $25\times \frac{0.5}{100}\times 50=\SI{6.25}{W}$\\
+        Hence, at \SI{0}{\celsius}, $P_\text{max}=50+6.25=\SI{56.25}{W}$
+        \item	At \SI{45}{\celsius } $P_\text{max}$ \emph{decreases} from the STC value by $20\times \frac{0.5}{100}\times 50=\SI{5.0}{W}$\\
+        Hence, at \SI{0}{\celsius}, $P_\text{max}=50-5=\SI{45}{W}$
+        \end{itemize}
+\item From the $IV$ curve, $I$ at \SI{12}{V}=\SI{3.2}{\ampere}\\
+$P=VI=12\times 3.2=\SI{38.4}{\watt}$\\
+This is about \SI{23}{\percent} down on $P_\text{max}$ !
+        
+\end{enumerate}
+
+\end{solution}
+
+\begin{question}\label{qu:ex2}
+Repeat the calculations above for the BP4175T module. Are there any differences?
+\end{question}
+\begin{solution}\label{sol:ex2}
+    \begin{enumerate}[label=\alph*)]
+    \item	$P_\text{max}$=\SI{175}{W}
+    \item	$V$ at $P_\text{max}$= \SI{35.4}{V}
+    \item	$FF=\frac{P_\text{max}}{V_\text{OC}\times I_\text{SC}}=\frac{175}{43.6\times 5.45}=0.736$
+    \item Assuming the frame width is \SI{11.1}{\milli\metre} as for the BP350,\\$\text{aperture length}=1587-(2\times 11.1)=\SI{1564.8}{\milli\metre}=\SI{1.5648}{\metre}$\\
+    $\text{aperture width}=790-(2\times 11.1)=\SI{767.8}{\milli\metre}=\SI{0.7678}{\metre}$\\
+    $\text{aperture area}=1.5648\times 0.7678=\SI{1.20}{\metre\squared}$
+    \item $\text{total area}=1.587\times 0.790=\SI{1.25}{\metre\squared}$
+    \item $\eta=\frac{P_\text{out}}{P_\text{in}}=\frac{P_\text{out}}{\text{irradiance}}=\frac{175}{1.2\times 1000}=\SI{14.6}{\percent}$
+    \item $\eta=\frac{P_\text{out}}{P_\text{in}}=\frac{P_\text{out}}{\text{irradiance}}=\frac{175}{1.25\times 1000}=\SI{14.0}{\percent}$. This is the value quoted in the spec.
+    \item $P_\text{max}$ decreases by \SI{0.5}{\percent} per \si{\celsius} increase in temperature. The standard test conditions are at \SI{25}{\celsius}.
+        \begin{itemize}
+        \item	This means that at \SI{0}{\celsius } $P_\text{max}$ \emph{increases} from the STC value by $25\times \frac{0.5}{100}\times 175=\SI{21.9}{W}$\\
+        Hence, at \SI{0}{\celsius}, $P_\text{max}=175+21.9=\SI{196.9}{W}$
+        \item	At \SI{45}{\celsius } $P_\text{max}$ \emph{decreases} from the STC value by $20\times \frac{0.5}{100}\times 175=\SI{17.5}{W}$\\
+        Hence, at \SI{0}{\celsius}, $P_\text{max}=175-17.5=\SI{157.5}{W}$
+        \end{itemize}
+\item From the $IV$ curve, $I$ at \SI{12}{V}=\SI{5.5}{\ampere}\\
+$P=VI=12\times 5.5=\SI{66}{\watt}$\\
+Which is a lot less than \SI{175}{\watt}!
+\end{enumerate}
+\end{solution}
+
+\begin{question}\label{qu:ex3}
+
+A roof is south facing at slope \SI{35}{\degree}. It is \SI{8}{\metre} long and \SI{4}{\metre} wide. The annual irradiation at this site is \SI{1240}{\kilowatthour\per\metre\squared}\\Establish
+\begin{enumerate}[label=\alph*)]
+\item How many BP350J panels could be mounted on the roof, if there must be a 1m border all the way around to allow for wind loads and maintenance?
+\item What peak power is this system?
+\item	What area do these panels cover?
+\item	Based on the efficiency you have calculated Exercise 1 (g), what electrical output could be expected from this system each year?
+\item	If the output is reduced by \SI{24}{\percent} for temperature, reflection and cabling losses, what is the actual likely energy output from the system (figure used by PVGIS).
+\item	A BP350J costs £217.38, how much do the panels in this array cost?
+\item	Assuming that the system lasts 25 years, and excluding the other costs associated with installing such a system, how much would it cost per kWh of generated electricity? How does this compare with the cost of electricity?
+\end{enumerate}
+\end{question}
+\begin{solution}
+\begin{enumerate}[label=\alph*)]
+\item $\text{Usable area}=2\times6=\SI{12}{\metre\squared}$. Can fit 2 modules $\times$ 11 along = 22 modules
+\item $P_\text{max}=22\times 50=\SI{1.1}{\kilowattpeak}$
+\item $\text{Area}=22\times (0.839\times0.537)=\SI{9.91}{\metre\squared}$
+\item $P_\text{out}=\eta \times P_\text{in}$ and $E_\text{out}=\eta \times E_\text{in}=\eta \times \text{Area}\times\text{Irradation}$\\Hence\\$E_\text{out}=\frac{11.1}{100}\times 9.91\times 1240=\SI{1364}{\kilowatthour}$
+\item \SI{24}{\percent} of 1364 = \SI{327}{\kilowatthour} This is the energy lost per year. hence the net annual output of the system is $E_\text{out}=1364-327=\SI{1037}{\kilowatthour\per\year}$. This means a net annual output of \SI{943}{\kilowatthour} per \si{\kilowattpeak}.
+\item Total cost $=22\times 217.38=$£4782
+\item Total energy production over 25 years $=25\times
+1037=\SI{25925}{\kilowatthour}$\\
+Cost per kWh over 25 years $=\frac{4782}{25925}=$£0.18 per kWh
+\end{enumerate}
+\end{solution}
+\begin{question}
+Repeat Exercise 3 but with the BP4175 module, which cost £495.65 per module.
+\end{question}
+\begin{solution}
+\begin{enumerate}[label=\alph*)]
+\item 1 row x 7 along = 7 modules
+\item $P_\text{max}=7\times 175=\SI{1.225}{\kilowattpeak}$
+\item $\text{Area}=7\times (1.587\times0.790)=\SI{8.78}{\metre\squared}$
+\item $P_\text{out}=\eta \times P_\text{in}$ and $E_\text{out}=\eta \times E_\text{in}=\eta \times \text{Area}\times\text{Irradation}$\\Hence\\$E_\text{out}=\frac{14}{100}\times 8.78\times 1240=\SI{1510}{\kilowatthour}$
+\item \SI{24}{\percent} of 1510 = \SI{362}{\kilowatthour} This is the energy lost per year. hence the net annual output of the system is $E_\text{out}=1510-362=\SI{1147}{\kilowatthour\per\year}$. This means a net annual output of \SI{937}{\kilowatthour} per \si{\kilowattpeak}.
+\item Total cost $=7\times 495.65=$£3469.55
+\item Total energy production over 25 years $=25\times
+1147=\SI{28675}{\kilowatthour}$\\
+Cost per kWh over 25 years $=\frac{3469.55}{28675}=$£0.12 per kWh
+\end{enumerate}
+You can see that the electricity produced remains expensive. A FiT or other subsidy is necessary to make the cost of production competitive.
+\end{solution}
+%\printbibliography
+\pagebreak
+\section*{Solutions}
+\printsolutions
+\end{document}

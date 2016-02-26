@@ -1,0 +1,25 @@
+%\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[crop=false,parskip=half]{scrartcl}
+\usepackage[subpreambles=false]{standalone}
+\usepackage{import}
+\usepackage{preamble}
+\usepackage{makeidx}
+\makeindex
+
+
+\begin{document}
+
+\import{./}{title.tex}
+
+\tableofcontents
+
+
+\section{Theory of photovoltaic cells}\label{sec:PVTheory}
+\import{chapters/}{PVTheory}
+\section{Factor Affecting PV performance}
+%\import{chapters/}{}
+
+
+%\printbibliography
+
+\end{document}

@@ -1,0 +1,89 @@
+\documentclass{standalone}
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+%\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{gensymb}
+
+% Unit definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\megawatthour{MWh}
+\DeclareSIUnit\kilowattpeak{kW_P}
+\DeclareSIUnit\kVA{kVA}
+\DeclareSIUnit\kVAR{kVAR}
+\DeclareSIUnit\rpm{rpm}
+\DeclareSIUnit\year{y}
+\DeclareSIUnit\north{N}
+\DeclareSIUnit\south{S}
+\DeclareSIUnit\second{s}
+\DeclareSIUnit\pence{p}
+\DeclareSIUnit\pound{£}
+
+% Constant definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\def\c{2.997e8} %speed of light in a vacuum
+\def\k{1.38065e-23} %Boltzmann's constant
+\def\h{6.6261e-34} %Planck's constant
+\def\pi{3.14157} %pi
+\def\r{6.96e8} % radius of sun in m
+\def\R{1.5e11} %average sun-earth radius in m
+
+\tikzstyle{every pin edge}=[>=stealth,<-,shorten <=1pt,very thin,font=\footnotesize]
+%
+\begin{tikzpicture}[>=stealth,shading=rainbow]
+    \begin{axis}[
+        ultra thin,
+        width=14cm,
+        height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!70},
+        %legend entries={Power,CP},
+        xmin=0,     % start the diagram at this x-coordinate
+        xmax=25,    % end   the diagram at this x-coordinate
+        ymin=0,     % start the diagram at this y-coordinate
+        ymax=70,   % end   the diagram at this y-coordinate
+        y tick label style={/pgf/number format/.cd,%
+        scaled y ticks = false,
+        set decimal separator={.},
+        fixed},
+        x tick label style={/pgf/number format/.cd,%
+        scaled x ticks = false,
+        set thousands separator={},
+        fixed},
+        /pgfplots/xtick={0,5,...,25},
+        /pgfplots/ytick={0,10,...,70},
+        axis background/.style={fill=white},
+        ylabel=Power $P$ (\si{\kilo\watt}),
+        xlabel=Wind speed  (\si{\metre\per\second}),
+        tick align=inside,
+        axis on top]
+      % import the correct data from a CSV file
+        \addplot[mark=o,red!90,smooth] table [col sep=comma,y=P] {./data/powercurve.csv}
+        node [pos=0.65,anchor=south, text=black] {$P$};;
+        %\legend{Power}
+    \end{axis} 
+    \begin{axis}[
+      width=14cm,
+      ultra thin,
+      height=8cm,     % size of the image
+      xmin = 0, xmax = 25,
+      ymin = 0, ymax = 0.5,
+      hide x axis,
+      axis y line*=right,
+      ylabel=$c_\mathrm{P}$ ,
+      ylabel near ticks
+    ]
+      \addplot[mark=square,blue,smooth] table [col sep=comma,y=cp] {./data/powercurve.csv} 
+      node [pos=0.7,anchor=south west, text=black] {$c_\mathrm{P}$}; \label{cP_plot};
+      %\legend{$c_\mathrm{P}$}
+    \end{axis}
+\end{tikzpicture}
+\end{document}
+

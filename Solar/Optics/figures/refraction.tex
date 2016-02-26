@@ -1,0 +1,73 @@
+% Refraction
+% Author: Jimi Oke
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,positioning,calc,intersections}
+\usetikzlibrary{decorations.markings}
+\tikzstyle arrowstyle=[scale=1]
+\tikzstyle directed=[postaction={decorate,decoration={markings,
+    mark=at position .65 with {\arrow[arrowstyle]{stealth}}}}]
+\tikzstyle reverse directed=[postaction={decorate,decoration={markings,
+    mark=at position .65 with {\arrowreversed[arrowstyle]{stealth};}}}]
+
+\begin{document}
+
+\begin{tikzpicture}[>=stealth]
+
+ % Coordinates of origin and point of entry
+
+\def\rwater{1.333};
+\def\rglass{1.5};
+
+\def\incidentangle{50};
+
+  % Calculation of the angle of refraction
+  %air-water
+  %\pgfmathsetmacro{\refractedangle}{asin(sin(\incidentangle)/\rwater)};
+  %air-glass
+  \pgfmathsetmacro{\refractedangle}{asin(sin(\incidentangle)/\rglass)};
+  
+\clip (-4,-4) rectangle (4,4);
+
+    % define coordinates
+    \coordinate (TL) at (-4, 4);
+    \coordinate (TR) at (4,4);
+    \coordinate (BR) at (4,-4);
+    \coordinate (BL) at (-4,-4);
+ 
+    \coordinate (O) at (0,0) ;
+    \coordinate (A) at (0,4) ;
+    \coordinate (B) at (0,-4) ;
+    
+    % media
+    \fill[blue!25!,opacity=.3] (-4,0) rectangle (4,4);
+    \fill[blue!60!,opacity=.3] (-4,0) rectangle (4,-4);
+    \node[right] at (-3.5,.25) {Air};
+    \node[right] at (-3.5,-.25) {Glass};
+    %\node[left] at (-2,-2) {Water};
+
+    % axis
+    \draw[dash pattern=on5pt off3pt] (A) -- (B);
+
+    % rays
+    \path [name path=edge] (TL) -- (TR) -- (BR) -- (BL) -- cycle;
+    \path [name path=incident ray] (90+\incidentangle:10) -- (0,0);
+    \path [name path=reflected ray] (0,0) -- (90-\incidentangle:10);
+    \path [name path=refracted ray] (0,0)--(270+\refractedangle:10);  
+   \draw [name intersections={of=incident ray and edge, by=t}] [red,ultra thick,reverse directed] (0,0)--
+   node[near end,sloped,above]{incident ray} (t);
+    \draw [name intersections={of=reflected ray and edge, by=t}] [red!20,ultra thick,directed] (0,0)--
+   node[near end,sloped,above]{reflected ray} (t);
+  \draw [name intersections={of=refracted ray and edge, by=t}] [blue!80,ultra thick,directed] (0,0)--
+  node[near end,sloped,above]{refracted ray} (t);
+
+    % angles
+    \draw [<->](0,1) arc (90:90+\incidentangle:1);
+    \draw [<->](0,1) arc (90:90-\incidentangle:1);
+    \draw [<->](0,-1.4) arc (270:270+\refractedangle:1.4);
+    \node[] at (270+\refractedangle/2:1.8)  {$\theta_{2}$};
+    \node[] at (90+\incidentangle/2:1.4)  {$\theta_{1}$};
+    \node[] at (90-\incidentangle/2:1.4)  {$\theta_{1}$};
+    
+\end{tikzpicture}
+\end{document}

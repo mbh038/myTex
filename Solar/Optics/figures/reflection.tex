@@ -1,0 +1,104 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows,calc}
+\usetikzlibrary{decorations.pathreplacing,decorations.markings}
+\colorlet{crystal}{blue!75}
+
+\tikzset{
+  % style to apply some styles to each segment of a path
+  on each segment/.style={
+    decorate,
+    decoration={
+      show path construction,
+      moveto code={},
+      lineto code={
+        \path [#1]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+      curveto code={
+        \path [#1] (\tikzinputsegmentfirst)
+        .. controls
+        (\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
+        ..
+        (\tikzinputsegmentlast);
+      },
+      closepath code={
+        \path [#1]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+    },
+  },
+  % style to add an arrow in the middle of a path
+  mid arrow/.style={postaction={decorate,decoration={
+        markings,
+        mark=at position .5 with {\arrow[#1]{stealth}}
+      }}}
+}
+
+\begin{document}
+
+\def\incidentangle{-20}
+
+
+%7,137.5,90 and 1,0.5,1 for Cartesic (sic?) perspective
+%0,225,90 and 1,0.5,1 for Cavalier perspective
+%-30,210,90 and 1,1,1 for Isometric perspective
+
+\newcommand{\xangle}{-42.5}% originally 7
+\newcommand{\yangle}{7}% originally 137.5
+\newcommand{\zangle}{90}
+
+\newcommand{\xlength}{.5}
+\newcommand{\ylength}{1}
+\newcommand{\zlength}{1}
+
+\pgfmathsetmacro{\xx}{\xlength*cos(\xangle)}
+\pgfmathsetmacro{\xy}{\xlength*sin(\xangle)}
+\pgfmathsetmacro{\yx}{\ylength*cos(\yangle)}
+\pgfmathsetmacro{\yy}{\ylength*sin(\yangle)}
+\pgfmathsetmacro{\zx}{\zlength*cos(\zangle)}
+\pgfmathsetmacro{\zy}{\zlength*sin(\zangle)}
+
+\begin{tikzpicture}
+[   x={(\xx cm,\xy cm)},
+    y={(\yx cm,\yy cm)},
+    z={(\zx cm,\zy cm)},
+     >=stealth, line cap=round, line join=round,
+    lines/.style={gray!50, thick}, 
+    axis/.style={black, thick},
+    ray/.style={red,thick,postaction={on each segment={mid arrow=red}}},
+    normal/.style={gray,dashed},
+    plate/.style={fill, opacity=0.675},
+    markers/.style={orange, thick}
+]
+
+%draw unit vectors
+\begin{scope} [shift={(0,-3.5,0)},scale=1]
+\draw[->] (0,0,0) -- (1,0,0) node at (1.4,0,0) {x};
+\draw[->] (0,0,0) -- (0,1,0) node at (0,1.2,0) {y};
+\draw[->] (0,0,0) -- (0,0,1) node at (0,0,1.2) {z};
+\end{scope}
+
+
+\begin{scope} [shift={(0,0,0)},scale=2]
+
+%\path [crystal!10,plate] (0,-1,-1)--(0,1,-1)--(0,1,0)--(0,-1,0) -- cycle;
+\path [crystal!50,plate] (-1,-1,0)--(1,-1,0)--(1,1,0)--(-1,1,0) -- cycle;
+\path [crystal!10,plate] (0,-1,0)--(0,1,0)--(0,1,1)--(0,-1,1) -- cycle;
+
+\draw[ray] (0,-1,1) -- node[very near start,sloped,above]{incident ray}  (0,0,0) -- node[very near end,sloped,above]{reflected ray}(0,1,1) ;
+
+\draw [normal] (0,0,0) -- (0,0,1.2) node[near end,sloped,above]{normal};
+
+    % angles
+    \draw [<->](0,0,.5) arc (90:135:.5);
+    \draw [<->](0,0,.5) arc (90:45:.5);
+    \node[] at (112.5:1.4)  {$\theta_{1}$};
+    \node[] at (67.5:1.4)  {$\theta_{1}$};
+
+\end{scope}
+
+
+\end{tikzpicture}
+
+\end{document}

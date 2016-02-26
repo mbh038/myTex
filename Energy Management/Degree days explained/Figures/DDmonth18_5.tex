@@ -1,0 +1,55 @@
+\documentclass{standalone}
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{fillbetween}
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{xcolor}
+\usepackage{siunitx}
+\usepackage{amsmath}
+%
+\begin{document}
+%\pgfplotstabletypeset[string type]{../data/DD-location.csv}
+\begin{tikzpicture}[>=stealth]
+
+    \tikzset{
+    every pin/.style={font=\small},
+    small dot/.style={fill=black,circle,scale=0.3}
+    }
+
+    \begin{axis}[
+        width=14cm, height=8cm,
+        grid = major,
+       % grid style={gray!30},
+        ymin=0,
+        ymax=25,
+        xmin=0,
+        xmax=31,
+        axis on top,
+        %xtick={0,1},
+        %xticklabel={\year},
+        xlabel={Days},
+        %stack plots=y,
+        ylabel={Outside temperature / \si{\celsius} },
+        %ylabel style={yshift=1pt},
+        legend style={
+        legend pos=south east,legend columns=3}
+        ]
+
+        \addplot [red,thin,fill=white, mark=none,name path=B] table[x=days,y=T,col sep=comma] {../data/DD-example.csv};
+        
+        \addplot [domain=0:31,blue,thick,name path=A]{18.5};
+        
+        \addplot[green!50,opacity=0.5] fill between[of=A and B,
+        ];
+
+        \node[small dot,pin=120:{Base temperature = \SI{18.5}{\celsius}}] at (axis description cs:0.5,0.74) {};
+        \node[font=\small] at (axis description cs:0.2,0.65) {272 degree days in this month};
+
+
+    \end{axis}
+\end{tikzpicture}
+\end{document}

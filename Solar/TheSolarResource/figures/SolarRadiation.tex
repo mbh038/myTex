@@ -1,0 +1,78 @@
+\documentclass{standalone}
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\usepackage{amsmath}
+%
+\begin{document}
+\def\c{2.997e8} %speed of light in a vacuum
+\def\k{1.38065e-23} %Boltzmann's constant
+\def\h{6.6261e-34} %Planck's constant
+\def\pi{3.14157} %pi
+\def\r{6.96e8} % radius of sun in m
+\def\R{1.5e11} %average sun-earth radius in m
+%
+\pgfdeclareverticalshading{rainbow}{100bp}
+{color(0bp)=(red); color(25bp)=(red); color(35bp)=(yellow);
+color(45bp)=(green); color(55bp)=(cyan); color(65bp)=(blue);
+color(75bp)=(violet); color(100bp)=(violet)}
+\tikzstyle{every pin edge}=[>=stealth,<-,shorten <=1pt,very thin,
+font=\footnotesize]
+%
+\begin{tikzpicture}[>=stealth,shading=rainbow]
+    \begin{axis}[
+        width=14cm, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        legend entries={AM0,AM1.5,$T=\SI{5734}{K}$},
+        legend pos=north east,
+        %xmode=log,log basis x=10,
+        %ymode=log,log basis y=10,
+        xmin=0,     % start the diagram at this x-coordinate
+        xmax=4000,    % end   the diagram at this x-coordinate
+        ymin=0,     % start the diagram at this y-coordinate
+        ymax=2.5,   % end   the diagram at this y-coordinate
+        y tick label style={/pgf/number format/.cd,%
+          scaled y ticks = false,
+          set decimal separator={.},
+          fixed},
+      x tick label style={/pgf/number format/.cd,%
+          scaled x ticks = false,
+          set thousands separator={},
+          fixed},%
+        /pgfplots/xtick={0,500,...,4000}, % make steps of length 500 nm
+       /pgfplots/ytick={0,0.5,...,2.5},
+       % extra x ticks={0.53},
+        %extra y ticks={0.507297},
+        axis background/.style={fill=white},
+        ylabel=Spectral density (\si{\watt\per\metre\squared\per\nano\metre}),
+        xlabel=Wavelength  (\si{\nano\metre}),
+        tick align=inside,
+        axis on top]
+
+      \coordinate (VLBbottom) at (axis cs:400,0);
+      \coordinate (VUBtop) at (axis cs:700,2.5);
+      \shade[shading angle=90,opacity=0.2] (VLBbottom)  rectangle   (VUBtop);
+      
+      % import the correct data from a CSV file
+     \addplot[fill,mark=none,gray!80] table [col sep=comma,row sep=crcr,y=AM0] {../data/SolarRadiation.csv};
+    \addplot [fill,mark=none,yellow!80] table [col sep=comma,row sep=crcr,y=AM15] {../data/SolarRadiation.csv};
+
+       %plot the Planck formula for T=5777K
+       \addplot[domain=0:4000, samples=200,red, thick] expression
+       {(1e-9*(\r/\R)^2)*(2*\pi*(\c^2)*\h/((x*1e-9)^5))*(1/(e^(\h*\c/((1e-9*x)*\k*5734))-1))};
+
+        \coordinate (IRarrow) at (axis cs:700,2.2);
+        \coordinate (UVarrow) at (axis cs:400,2.2);
+        \coordinate (IRend) at (axis cs:2000,2.2);
+        \draw [<->,gray] (UVarrow) -- node [above,midway,] {\scriptsize Visible} (IRarrow);
+        \draw[->,gray] (UVarrow) -- node[black,above,near end]{\scriptsize UV}(UVarrow-| current plot begin);
+        \draw[->,gray] (IRarrow) -- node[black,above,very near end]{\scriptsize Near IR} (IRend);
+       \end{axis} 
+\end{tikzpicture}
+\end{document}

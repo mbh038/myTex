@@ -1,0 +1,87 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{comment}
+\usetikzlibrary{arrows,shapes,positioning,calc,intersections}
+\usetikzlibrary{decorations.markings,shapes.geometric}
+
+\tikzstyle arrowstyle=[scale=1]
+\tikzstyle directed=[postaction={decorate,decoration={markings,
+    mark=at position .65 with {\arrow[arrowstyle]{stealth}}}}]
+\tikzstyle reverse directed=[postaction={decorate,decoration={markings,
+    mark=at position .65 with {\arrowreversed[arrowstyle]{stealth};}}}]
+    
+\tikzset{
+    sunflames/.style={
+        line width=1pt,
+        draw=red,
+        fill=yellow,
+        regular polygon, 
+        regular polygon sides=3,
+        inner sep=.05cm
+    },
+    sunbody/.style={
+        line width=1pt,
+        draw=red,
+        fill=yellow,
+        circle,
+        minimum size=0.9cm
+    }
+ }
+
+\begin{document}
+
+\begin{tikzpicture}
+
+\def\skyheight{2.5};
+\coordinate (here) at (3,0);
+\pgfmathsetmacro\sunheight{\skyheight+2};
+
+\path [name path = sun line] (-15,\sunheight) -- (4,\sunheight);
+\path [name path=sky line] (-10,\skyheight) -- (4,\skyheight);
+\path [name path=AM1] (here) -- ++(90:6cm); 
+\path [name path=AM1.5] (here) -- ++(138.2:7cm);
+\path [name path=AM3] (here) -- ++(160.5:14cm);
+
+\draw (-11,0) -- (4,0);
+\draw (-11,\skyheight) -- (4,\skyheight);
+
+\shade[bottom color=blue!50,top color=blue!0] (-11,0) rectangle (4,\skyheight);
+\path[fill,blue,opacity=0.2] (-11,\skyheight) -- (4,\skyheight) --(4,0) -- (-11,0) -- cycle;
+
+\draw [reverse directed, name intersections={of=sun line and AM1, by=x}] [very thick,blue] (here) -- node[near start,rotate=270,above]{AM1} (x);
+\path [name intersections ={of=sky line and AM1, by =x}];
+\node [blue, above right] at (x) {AM0};
+
+\draw [reverse directed,name intersections={of=sun line and AM1.5, by=x}] [very thick,orange] (here) -- node[near start,sloped,above]{AM1.5} (x);
+\path [name intersections ={of=sky line and AM1.5, by =x}];
+\node [orange, above right] at (x) {AM0};
+
+\draw [reverse directed,name intersections={of=sun line and AM3, by=x}] [very thick,red] (here) -- node[near start,sloped,above]{AM3} (x);
+\path [name intersections ={of=sky line and AM3, by =x}];
+\node [red, above right] at (x) {AM0};
+
+
+\foreach \sundir in {90,138.2,160.5}
+{
+    \pgfmathsetmacro\result{180-\sundir};
+    \path [name path = wheresun] (here) -- ++(\sundir:(\sunheight/sin(\sundir)));
+    \path [name intersections ={of=sun line and wheresun, by =x}];
+    \draw (x) node[sunbody] (TheSun) {};
+    \draw (x) ++(0.8,0) node[right]{$\gamma =$\SI{\result}{\degree}};
+
+        \foreach \angle in { 0,45,...,359  }
+        {
+            \draw [rotate around={\angle:(TheSun.center)}]
+                ($(TheSun.center) + (0.6,0)$)
+                node[shape border rotate=\angle-90,sunflames] {};
+         }
+}
+
+\draw[thin,black,->] (0,0) arc (180:160.5:3cm);
+\path (-.1,0) -- node {$\gamma$ }++(0,1.1);
+
+\end{tikzpicture}
+
+\end{document}

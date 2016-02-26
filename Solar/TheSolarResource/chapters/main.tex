@@ -1,0 +1,32 @@
+%\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[crop=false,parskip=half]{scrartcl}
+\usepackage[subpreambles=false]{standalone}
+\usepackage{import}
+\usepackage{preamble}
+\usepackage{makeidx}
+\makeindex
+
+
+\begin{document}
+
+\import{./}{title.tex}
+
+\tableofcontents
+
+%\chapter{The Solar Resource}\label{SolarResource}
+\section{Electromagnetic Radiation}\label{sec:emRadiation}
+\import{chapters/}{emRadiation}
+\section{The Sun}
+\import{chapters/}{TheSun.tex}
+%\section{Solar Irradiance on the surface of the earth}
+%\import{chapters/}{ch1s2.tex}
+%\section{Exercises for Chapter \ref{SolarResource}}
+%\import{exercises/}{SolarResourceExercises.tex}
+
+%\chapter*{Solutions to Exercises}
+%\section*{Solutions to Chapter \ref{SolarResource}} 
+%\printsolutions
+
+\printbibliography
+
+\end{document}

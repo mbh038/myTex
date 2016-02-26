@@ -1,0 +1,31 @@
+                                                                         %\RequirePackage[l2tabu, orthodox]{nag}
+%\documentclass[crop=false,parskip=half]{scrartcl}
+\documentclass{article}
+\usepackage[subpreambles=false]{standalone}
+\usepackage{import}
+\usepackage{preamble}
+\usepackage{makeidx}
+\usepackage[nomarkers,nolists]{endfloat}
+\usepackage{lipsum}
+
+\setcounter{totalnumber}{1}
+\makeindex
+
+
+\begin{document}
+
+\import{./}{title.tex}
+
+\tableofcontents
+
+\import{chapters/}{schematics}
+\import{chapters/}{keydecisions}
+\import{chapters/}{batterysizing}
+
+\printbibliography
+
+\end{document}
+
+\begin{comment}
+My system isn’t optimally positioned, and there is a very small amount of shading late in the evening, but even including that, it seems unlikely that a system would consistently generate at 1100 kWh / kWp – it is likely that an optimally positioned system would be generate about 1000kWh per kWp or greater over most years, so this is a reasonable estimate.  
+\end{comment}

@@ -1,0 +1,110 @@
+\documentclass{standalone}
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+\setlength\PreviewBorder{2mm}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{width=7cm,compat=1.11}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\begin{document}
+    \begin{tikzpicture}[>=stealth]
+
+        \def\juncolor{blue!10!red};
+        \def\aprcolor{blue!30!red};
+        \def\marcolor{blue!50!red};
+        \def\febcolor{blue!70!red};
+        \def\deccolor{blue!90!red};
+         
+        \def\where{Camborne}
+        \def\timezone{GMT +0h}
+        \def\latitude{50.2};
+        \def\longitude{5.27};
+        
+        \begin{axis}[
+        width=14cm, height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!30},
+        %legend entries={21 Dec,21 Feb,21 Mar, 21 Apr, 21 Jun},
+        legend pos=north east,
+        xmin=45,     % start the diagram at this x-coordinate
+        xmax=315,    % end   the diagram at this x-coordinate
+        ymin=0,     % start the diagram at this y-coordinate
+        ymax=90,   % end   the diagram at this y-coordinate
+        %restrict y to domain=0:90,
+        /pgfplots/xtick={45,90,...,315},
+        /pgfplots/ytick={0,10,...,90},
+        axis background/.style={fill=white},
+        ylabel=Solar altitude angle in degrees,
+        xlabel=Solar azimuth angle in degrees,
+        tick align=inside,]
+      
+    
+
+%draw the half hour points
+
+        \addplot+[only marks,mark size =1,smooth,\deccolor,mark=o, mark color={},mark repeat=2,mark phase =2] table [col sep=comma,row sep=crcr,x=Az21Dec,y=Sh21Dec] {../data/SolarPositionCamborne.csv};  
+
+     
+        \addplot+[only marks,mark size =1,smooth,\febcolor,mark=o, mark color={},mark repeat=2,mark phase =2] table [col sep=comma,row sep=crcr,x=Az21Feb,y=Sh21Feb] {../data/SolarPositionCamborne.csv}; 
+          
+        \addplot+[only marks,mark size =1,smooth,\marcolor,mark=o, mark color={},mark repeat=2,mark phase =1] table [col sep=comma,row sep=crcr,x=Az21Mar,y=Sh21Mar] {../data/SolarPositionCamborne.csv}; 
+               
+        \addplot+[only marks,mark size =1,smooth,\aprcolor,mark=o, mark color={},mark repeat=2,mark phase =1] table [col sep=comma,row sep=crcr,x=Az21Apr,y=Sh21Apr] {../data/SolarPositionCamborne.csv};
+        
+         \addplot+[only marks,mark size =1,smooth,\juncolor,mark=o, mark color={},mark repeat=2,mark phase =1] table [col sep=comma,row sep=crcr,x=Az21Jun,y=Sh21Jun] {../data/SolarPositionCamborne.csv}; 
+
+%draw the hour points
+
+         \addplot+[solid,\juncolor,nodes near coords,point meta=explicit symbolic,smooth,mark=o, mark size =1,mark color=\juncolor,mark repeat=2,mark phase =2] table [col sep=comma,row sep=crcr,x=Az21Jun,y=Sh21Jun,meta=TimeLocal] {../data/SolarPositionCamborne.csv}; 
+         
+         
+         \addplot+[solid,\aprcolor,nodes near coords,point meta=explicit symbolic,smooth,mark=o, mark size =1,mark color=\aprcolor,mark repeat=2,mark phase =2] table [col sep=comma,row sep=crcr,x=Az21Apr,y=Sh21Apr,meta=TimeLocal] {../data/SolarPositionCamborne.csv};
+        
+        
+        \addplot+[solid,\marcolor,nodes near coords,point meta=explicit symbolic,smooth,mark=o, mark size =1,mark color=\marcolor,mark repeat=2,mark phase =2] table [col sep=comma,row sep=crcr,x=Az21Mar,y=Sh21Mar,meta=TimeLocal] {../data/SolarPositionCamborne.csv}; 
+         
+         
+         \addplot+[solid,\febcolor,nodes near coords,point meta=explicit symbolic,smooth,mark=o, mark size =1,mark color=\febcolor,mark repeat=2,mark phase =2] table [col sep=comma,row sep=crcr,x=Az21Feb,y=Sh21Feb,meta=TimeLocal] {../data/SolarPositionCamborne.csv}; 
+         
+         
+        \addplot+[solid,\deccolor,mark size =2, nodes near coords,point meta=explicit symbolic,smooth,mark=o, mark size =1,mark color=\deccolor,mark repeat=2,mark phase =2] table [col sep=comma,row sep=crcr,x=Az21Dec,y=Sh21Dec,meta=TimeLocal] {../data/SolarPositionCamborne.csv};  
+        
+        \addlegendentry[]{21 Dec}
+        \addlegendentry[]{21 Feb} 
+        \addlegendentry[]{21 Mar}
+        \addlegendentry[]{21 Apr}
+        \addlegendentry[]{21 Jun} 
+        
+     \coordinate (place) at (axis cs:45,86);
+     \node [right, font=\small] at 
+        (place){\where};         
+     \coordinate (tz) at (axis cs:45,80);
+     \node [right, font=\small] at 
+        (tz){\timezone};  
+     \coordinate (coords) at (axis cs:45,74);
+         \node [right, font=\small] at 
+        (coords){\SI{\latitude}{\degree}N, \SI{\longitude}{\degree}W};     
+         
+    \end{axis}
+
+    \begin{axis}[
+        width=14cm, height=8cm,     % size of the image
+        xmin=45,     % start the diagram at this x-coordinate
+        xmax=315,    % end   the diagram at this x-coordinate
+        ymin=0,     % start the diagram at this y-coordinate
+        ymax=90,   % end   the diagram at this y-coordinate
+        xticklabels={NE,E,SE,S,SW,W,NW},
+        xticklabel pos=upper,
+        /pgfplots/xtick={45,90,...,315},
+        %/pgfplots/ytick={0,10,...,90},
+        tick align=inside,]
+    \end{axis}   
+    
+    \end{tikzpicture}
+
+\end{document}

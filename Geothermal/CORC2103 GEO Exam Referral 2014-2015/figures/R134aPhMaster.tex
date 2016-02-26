@@ -1,0 +1,167 @@
+% P-h saturation curve for R134a
+
+% Vapour compression cycle
+
+% B0W35
+
+% Ground Source Heat Pump
+
+\documentclass{standalone}
+\usepackage[subpreambles=true]{standalone}
+%\usepackage{preamble}
+\usepackage{import}
+
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+%\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable} % For \pgfplotstableread
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{gensymb}
+
+\usetikzlibrary{arrows,shapes,positioning,calc,intersections}
+\usetikzlibrary{decorations.markings}
+\tikzstyle arrowstyle=[scale=1]
+\tikzstyle directed=[postaction={decorate,decoration={markings,
+    mark=at position .5 with {\arrow[arrowstyle]{stealth}}}}]
+\tikzstyle reverse directed=[postaction={decorate,decoration={markings,
+    mark=at position .5 with {\arrowreversed[arrowstyle]{stealth};}}}]
+    
+\pgfplotsset{
+    axis line style={gray!80},
+    every axis label/.append style ={black!80},
+    every tick label/.append style={black!80}  
+  }
+  
+% colours - from ColorBrewer
+
+\definecolor{greenlines}{RGB}{120, 180, 100}
+\definecolor{greenlabels}{RGB}{49, 163, 84}
+    
+% Unit definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\megawatthour{MWh}
+\DeclareSIUnit\kilowattpeak{kW_P}
+\DeclareSIUnit\kVA{kVA}
+\DeclareSIUnit\kVAR{kVAR}
+\DeclareSIUnit\rpm{rpm}
+\DeclareSIUnit\year{y}
+\DeclareSIUnit\north{N}
+\DeclareSIUnit\south{S}
+\DeclareSIUnit\second{s}
+\DeclareSIUnit\pence{p}
+\DeclareSIUnit\pound{£}
+
+% Constant definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\def\c{2.997e8} %speed of light in a vacuum
+\def\k{1.38065e-23} %Boltzmann's constant
+\def\h{6.6261e-34} %Planck's constant
+\def\pi{3.14157} %pi
+\def\r{6.96e8} % radius of sun in m
+\def\R{1.5e11} %average sun-earth radius in m
+
+\tikzstyle{every pin edge}=[>=stealth,<-,shorten <=1pt,very thin,font=\footnotesize]
+%
+\begin{tikzpicture}[>=stealth,shading=rainbow]
+
+    \begin{axis}[
+        thin,
+        ymode=log,
+        width=10cm,
+        height=7cm,     % size of the image
+        grid = both,
+        major grid style={solid, gray!60},
+        minor grid style={solid, gray!40},
+        %legend entries={Reflected,Transmitted},
+        xmin=0,     % start the diagram at this x-coordinate
+        xmax=350,    % end   the diagram at this x-coordinate
+        ymin=100,     % start the diagram at this y-coordinate
+        ymax=10000,   % end   the diagram at this y-coordinate
+       % y tick label style={
+       %     log ticks with fixed point,
+       %     scaled y ticks=real:1e2
+       %     /pgf/number format/.cd,%
+       % },
+        x tick label style={
+            /pgf/number format/.cd,%
+            scaled x ticks = false,
+            set thousands separator={},
+            fixed
+        },
+        /pgfplots/xtick={0,50,...,350},
+        %/pgfplots/ytick={0,100,...,400},
+        axis background/.style={fill=white},
+        ylabel=$P$ (\si{\kilo\pascal}),
+        xlabel=Specific enthalpy $s$  (\si{\kJ\per\kg}),
+        tick align=inside,
+        after end axis/.code={
+        % Draw cycle
+            %\draw[red,directed,thick] (axis cs:129.1,900) -- (axis cs:742.7,900);
+            %\draw[red,directed,thick] (axis cs:742.7,900) -- (axis cs:2773,900);
+            \draw[red,directed,thick] (axis cs:244.5,200.6) -- (axis cs:290.1,1160.1) node[midway,above,font=\footnotesize]{};
+            \draw[red,directed,thick] (axis cs:290.1,1160.1) -- (axis cs:108.3,1160.1) node[midway,right,font=\footnotesize]{};
+            \draw[red,directed,thick] (axis cs:108.3,1160.1) -- (axis cs:108.3,200.6) node[midway,right,font=\footnotesize]{};
+            \draw[red,directed,thick] (axis cs:108.3,200.6) -- (axis cs:244.5,200.6) node[midway,right,font=\footnotesize]{};
+            \node[right,red] at (axis cs:244.5,200.6) {1};
+            \node[right,red] at (axis cs:290.1,1160.1) {2};
+            \node[left,red] at (axis cs:108.3,1160.1) {3};
+            \node[left,red] at (axis cs:108.3,200.6) {4};
+            }
+        ]
+        
+    % Plot dryness fraction lines
+        \addplot+[mark=none,greenlines,ultra thin,solid] table [col sep=comma,x=hfg9010,y=P] {./data/R134a-saturation.csv} ;
+        \addplot+[mark=none,greenlines,ultra thin,solid] table [col sep=comma,x=hfg8020,y=P] {./data/R134a-saturation.csv} node[at start,above,font=\tiny,greenlabels] {20\%}; 
+        \addplot+[mark=none,greenlines,ultra thin,solid] table [col sep=comma,x=hfg7030,y=P] {./data/R134a-saturation.csv}; 
+        \addplot+[mark=none,greenlines,ultra thin,solid] table [col sep=comma,x=hfg6040,y=P] {./data/R134a-saturation.csv}  node[at start,above,font=\tiny,greenlabels] {40\%}; 
+        \addplot+[mark=none,greenlines,ultra thin,solid] table [col sep=comma,x=hfg5050,y=P] {./data/R134a-saturation.csv}; 
+        \addplot+[mark=none,greenlines,ultra thin,solid] table [col sep=comma,x=hfg4060,y=P] {./data/R134a-saturation.csv}  node[at start,above,font=\tiny,greenlabels] {60\%}; 
+        \addplot+[mark=none,greenlines,ultra thin,solid] table [col sep=comma,x=hfg3070,y=P] {./data/R134a-saturation.csv}; 
+        \addplot+[mark=none,greenlines,ultra thin,solid] table [col sep=comma,x=hfg2080,y=P] {./data/R134a-saturation.csv}  node[at start,above,font=\tiny,greenlabels] {80\%}; 
+        \addplot+[mark=none,greenlines,ultra thin,solid] table [col sep=comma,x=hfg1090,y=P] {./data/R134a-saturation.csv}; 
+        
+        
+    % Plot constant T lines
+        \addplot+[mark=none,blue!80,ultra thin,solid] table [col sep=comma,x=h-20,y=T-20] {./data/R134a-constantT.csv} node[midway,sloped,below,font=\tiny,gray!80,above] {$\SI{-20}{\celsius}$};
+        \addplot+[mark=none,blue!80,ultra thin,solid] table [col sep=comma,x=h0,y=T0] {./data/R134a-constantT.csv} node[midway,font=\tiny,gray!90,above] {$\SI{0}{\celsius}$};  
+        \addplot+[mark=none,blue!80,ultra thin,solid] table [col sep=comma,x=h20,y=T20] {./data/R134a-constantT.csv} node[midway,font=\tiny,gray!90,above] {$\SI{20}{\celsius}$};   
+        \addplot+[mark=none,blue!80,ultra thin,solid] table [col sep=comma,x=h40,y=T40] {./data/R134a-constantT.csv} node[midway,font=\tiny,gray!90,above] {$\SI{40}{\celsius}$};   
+        \addplot+[mark=none,blue!80,ultra thin,solid] table [col sep=comma,x=h60,y=T60] {./data/R134a-constantT.csv} node[midway,font=\tiny,gray!90,above] {$\SI{60}{\celsius}$};  
+        \addplot+[mark=none,blue!80,ultra thin,solid] table [col sep=comma,x=h80,y=T80] {./data/R134a-constantT.csv} node[midway,font=\tiny,gray!90,above] {$\SI{80}{\celsius}$};  
+        \addplot+[mark=none,blue!80,ultra thin,solid] table [col sep=comma,x=h100,y=T100] {./data/R134a-constantT.csv} node[midway,font=\tiny,gray!90,above] {$\SI{100}{\celsius}$}; 
+        
+    % Plot constant entropy  lines
+        \addplot+[mark=none,cyan!80,ultra thin,solid] table [col sep=comma,x=h0.9,y=P0.9] {./data/R134a-constantEntropy.csv} node[at start,font=\tiny,cyan,below] {$0.9$};
+         \addplot+[mark=none,cyan!80,ultra thin,solid] table [col sep=comma,x=h1.0,y=P1.0] {./data/R134a-constantEntropy.csv} node[near start,font=\tiny,cyan,below] {$1.0$};
+         \addplot+[mark=none,cyan!80,ultra thin,solid] table [col sep=comma,x=h1.1,y=P1.1] {./data/R134a-constantEntropy.csv} node[midway,font=\tiny,cyan,below] {$1.1$};
+         \addplot+[mark=none,cyan!80,ultra thin,solid] table [col sep=comma,x=h1.2,y=P1.2] {./data/R134a-constantEntropy.csv} node[near end,font=\tiny,cyan,below] {$1.2$};
+
+        \node[cyan,font=\tiny,scale=0.7] at (axis cs:310,120) {Entropy \si{kJ\per\kg\per\kelvin}};
+
+    % Plot saturation line
+        \addplot+[mark=none,blue!80,thick,solid] table [col sep=comma,x=hf,y=P] {./data/R134a-saturation.csv};
+        \addplot+[mark=none,blue!80,thick,solid] table [col sep=comma,x=hg,y=P] {./data/R134a-saturation.csv};
+        
+        \end{axis} 
+   
+    
+\end{tikzpicture}
+
+\end{document}
+
+
+
+
+244.5,200.6	
+290.1,1160.1	
+273.4,1160.1	
+115.8,1160.1	
+108.3,1160.1	
+108.3,200.6	
+244.5,200.6	

@@ -1,0 +1,165 @@
+% T-s saturation curve for water
+
+% Rankine cycle
+
+% Geothermal plant
+
+\documentclass{standalone}
+\usepackage[subpreambles=true]{standalone}
+%\usepackage{preamble}
+\usepackage{import}
+
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+%\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable} % For \pgfplotstableread
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{gensymb}
+
+\usetikzlibrary{arrows,shapes,positioning,calc,intersections}
+\usetikzlibrary{decorations.markings}
+\tikzstyle arrowstyle=[scale=1]
+\tikzstyle directed=[postaction={decorate,decoration={markings,
+    mark=at position .5 with {\arrow[arrowstyle]{stealth}}}}]
+\tikzstyle reverse directed=[postaction={decorate,decoration={markings,
+    mark=at position .5 with {\arrowreversed[arrowstyle]{stealth};}}}]
+    
+\pgfplotsset{
+    axis line style={gray!80},
+    every axis label/.append style ={black!80},
+    every tick label/.append style={black!80}  
+  }
+    
+% Unit definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\megawatthour{MWh}
+\DeclareSIUnit\kilowattpeak{kW_P}
+\DeclareSIUnit\kVA{kVA}
+\DeclareSIUnit\kVAR{kVAR}
+\DeclareSIUnit\rpm{rpm}
+\DeclareSIUnit\year{y}
+\DeclareSIUnit\north{N}
+\DeclareSIUnit\south{S}
+\DeclareSIUnit\second{s}
+\DeclareSIUnit\pence{p}
+\DeclareSIUnit\pound{£}
+
+% Constant definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\def\c{2.997e8} %speed of light in a vacuum
+\def\k{1.38065e-23} %Boltzmann's constant
+\def\h{6.6261e-34} %Planck's constant
+\def\pi{3.14157} %pi
+\def\r{6.96e8} % radius of sun in m
+\def\R{1.5e11} %average sun-earth radius in m
+
+\tikzstyle{every pin edge}=[>=stealth,<-,shorten <=1pt,very thin,font=\footnotesize]
+%
+\begin{tikzpicture}[>=stealth,shading=rainbow]
+
+    \begin{axis}[
+        thin,
+        %ymode=log,
+        width=7cm,
+        height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!70},
+        %legend entries={Reflected,Transmitted},
+        xmin=-0.5,     % start the diagram at this x-coordinate
+        xmax=10,    % end   the diagram at this x-coordinate
+        ymin=0,     % start the diagram at this y-coordinate
+        ymax=400,   % end   the diagram at this y-coordinate
+        y tick label style={/pgf/number format/.cd,%
+        scaled y ticks = false,
+        set decimal separator={.},
+        fixed},
+        x tick label style={/pgf/number format/.cd,%
+        scaled x ticks = false,
+        set thousands separator={},
+        fixed},
+        /pgfplots/xtick={0,1,...,10},
+        /pgfplots/ytick={0,100,...,400},
+        axis background/.style={fill=white},
+        ylabel=$T$ (\si{\celsius}),
+        xlabel=Specific entropy $s$  (\si{\kJ\per\kg\per\kelvin}),
+        tick align=inside,
+        after end axis/.code={
+        % Draw cycle
+            \draw[red,directed,thick] (axis cs:0.451,31.25) -- (axis cs:2.094,175.36);
+            \draw[red,directed,thick] (axis cs:2.094,175.36) -- (axis cs:6.621,175.36);
+            \draw[red,directed,thick] (axis cs:6.621,175.36) -- (axis cs:6.621,31.01);
+            \draw[red,directed,thick] (axis cs:6.621,31.01) -- (axis cs:0.451,31.01);
+            \draw[red,thick] (axis cs:0.451,31.01) -- (axis cs:0.451,31.25);
+            \node[above left,red] at (axis cs:0.451,31.25) {1};
+            \node[above right,red] at (axis cs:6.621,175.36) {2};
+            \node[right,red] at (axis cs:6.621,31.01) {3};
+            \node[below,red] at (axis cs:0.451,31.01) {4};
+            }
+        ]
+
+        
+    % Plot dryness fraction lines
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg9010,y=T] {./data/water-steam-saturation.csv};
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg8020,y=T] {./data/water-steam-saturation.csv} node[at start,above,font=\tiny,green] {20\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg7030,y=T] {./data/water-steam-saturation.csv}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg6040,y=T] {./data/water-steam-saturation.csv} node[at start,above,font=\tiny,green] {40\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg5050,y=T] {./data/water-steam-saturation.csv}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg4060,y=T] {./data/water-steam-saturation.csv} node[at start,above,font=\tiny,green] {60\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg3070,y=T] {./data/water-steam-saturation.csv}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg2080,y=T] {./data/water-steam-saturation.csv} node[at start,above,font=\tiny,green] {80\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=sfg1090,y=T] {./data/water-steam-saturation.csv}; 
+
+      % Plot saturation line
+        \addplot+[mark=none,blue!80,thick,solid] table [col sep=comma,x=sf,y=T] {./data/water-steam-saturation.csv};
+        \addplot+[mark=none,blue!80,thick,solid] table [col sep=comma,x=sg,y=T] {./data/water-steam-saturation.csv};
+        
+        \end{axis} 
+   
+    
+\end{tikzpicture}
+
+\end{document}
+
+
+	        Boiler	Condenser	
+Pressure	900	    4.5	    kPa
+Temperature	175.36	31.01	°C
+hf	        742.7	130	    kJ kg-1
+hg	        2773	2557.4	kJ kg-1
+sf	        2.094	0.451	kJ K-1 kg-1
+sg	        6.621	8.431	kJ K-1 kg-1
+vf	        0.00112	0.001	
+
+
+0.451,31.25
+2.094,175.36
+6.621,175.36
+6.621,31.01
+0.451,31.01
+0.451,31.25
+
+
+
+
+129.1,900
+742.7,900
+2773,900
+2006.8,4.5
+130,4.5
+129.1,900
+
+            \draw[red,directed,thick] (axis cs:129.1,900) -- (axis cs:742.7,900);
+            \draw[red,directed,thick] (axis cs:742.7,900) -- (axis cs:2773,900);
+            \draw[red,directed,thick] (axis cs:2773,900) -- (axis cs:2006.8,4.5);
+            \draw[red,directed,thick] (axis cs:2006.8,4.5) -- (axis cs:130,4.5);
+            \draw[red,directed,thick] (axis cs:130,4.5) -- (axis cs:129.1,900);
+            \node[above left,red] at (axis cs:129.1,900) {1};
+            \node[above right,red] at (axis cs:2773,900) {2};
+            \node[below right,red] at (axis cs:2006.8,4.5) {3};
+            \node[below left,red] at (axis cs:130,4.5) {4};

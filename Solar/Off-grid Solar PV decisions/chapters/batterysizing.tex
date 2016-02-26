@@ -1,0 +1,104 @@
+\documentclass[article]{standalone}
+\usepackage[subpreambles=false]{standalone}
+\usepackage{preamble}
+\usepackage{import}
+\usepackage{tabu}
+
+\begin{document}
+
+\section{Battery  and System Sizing – Off Grid}
+
+This method is lifted entirely from the Wind and Sun catalogue but as it covers all aspects of the method and does not overcomplicate, it is the one I would use.
+
+Weekly energy requirements of AC loads
+
+\begin{table}[ht] \label{tab:ACloadWeeklyRequirement}
+\caption{Data for the Sun and the Earth}
+    \begin{tabular}{l l l}
+    \hline\\
+     \textbf{Time load is on (h)} & 	\textbf{Power (W)} & 	\textbf{Energy (Wh)}\\
+    \hline\\
+    & &  \\
+     \hline\\
+     & &  \\
+     \hline\\
+     & &  \\
+     \hline\\
+     & &  \\
+     \hline\\
+     & &  \\
+     \hline\\
+     & &  \\
+     \hline\\
+     & &  \\
+     \hline\\
+    \end{tabular}
+\end{table}
+\\
+\begin{FlushRight}
+Total  AC energy wk^{-1} 	…………….	Wh
+\end{FlushRight}
+
+
+
+
+
+time load is on / hours	power / Watts	Energy / Wh
+
+	total  AC energy wk-1 	…………….	Wh
+
+This figure is multiplied by 1.1 to allow for losses in the inverters
+
+						corrected AC energy wk-1 …………….	Wh
+
+Weekly energy requirements of DC loads
+
+time load is on / hours	power / Watts	Energy / Wh
+		
+		
+		
+
+						total DC energy wk-1 	…………….	Wh
+
+add weekly AC and DC  energy requirements to give total weekly energy requirement 
+
+						total energy wk-1		 …………….	Wh
+
+divide by 7 to give the total daily energy requirements
+
+						total energy day-1 		…………….	Wh
+
+decide the battery system voltage (normally 24V)
+
+						battery system voltage	…………….	V
+
+divide the total energy per day by the battery system voltage to get the charge that the battery system must deliver on average each day (charge is measured in Amphours)
+
+						Average AmpHours day-1	…………….	Ah
+
+multiply this by 1.2 to calculate the AmpHours that must be generated on average each day. The Factor of 1.2 accounts for the efficiency of the battery system (which should be about 85\% when new – 1.2 assumes an efficiency of 83\%. You could be more conservative and use a higher multiplier (lower efficiency) )
+
+				Average Generated AmpHours day-1	…………….	Ah
+
+decide how many days the storage system should be able to cope with NO input from the power source (e.g. poor weather of system off line for repairs etc)
+
+						No. Days Autonomy	…………….	 Days
+
+calculate the size of the storage batteries that be needed, if the batteries were 100\% discharged. This is done by multiplying the average AmpHours required (not the generated amp-hours) by the number of days of autonomy required
+
+						Battery size if 100\% DOD	…………….	Ah
+
+calculate the size of the storage batteries that are actually needed, assuming that the batteries will never be totally discharged. Wind & Sun suggest a 1.25 multiplier applied to the last line. 1.25 means that a maximum DOD of 80\% is taken. Battery life is greater if the max DOD is reduced so a greater multiplier could be used, depending on your view on investment now compared to the possibility of having to change the batteries sooner
+
+						Battery size if 80\% DOD	…………….	Ah
+
+
+
+
+
+
+
+
+
+
+\end{document}

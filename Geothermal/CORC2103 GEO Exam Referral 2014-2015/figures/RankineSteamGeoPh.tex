@@ -1,0 +1,149 @@
+% P-h saturation curve for water
+
+% Rankine cycle
+
+% Geothermal plant
+
+\documentclass{standalone}
+\usepackage[subpreambles=true]{standalone}
+%\usepackage{preamble}
+\usepackage{import}
+
+%\usepackage{preamble}
+\usepackage[pdftex,active,tightpage]{preview}
+%\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable} % For \pgfplotstableread
+\usepackage{tikz}
+\usetikzlibrary{arrows, positioning, calc}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{gensymb}
+
+\usetikzlibrary{arrows,shapes,positioning,calc,intersections}
+\usetikzlibrary{decorations.markings}
+\tikzstyle arrowstyle=[scale=1]
+\tikzstyle directed=[postaction={decorate,decoration={markings,
+    mark=at position .5 with {\arrow[arrowstyle]{stealth}}}}]
+\tikzstyle reverse directed=[postaction={decorate,decoration={markings,
+    mark=at position .5 with {\arrowreversed[arrowstyle]{stealth};}}}]
+    
+\pgfplotsset{
+    axis line style={gray!80},
+    every axis label/.append style ={black!80},
+    every tick label/.append style={black!80}  
+  }
+    
+% Unit definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareSIUnit\kilowatthour{kWh}
+\DeclareSIUnit\megawatthour{MWh}
+\DeclareSIUnit\kilowattpeak{kW_P}
+\DeclareSIUnit\kVA{kVA}
+\DeclareSIUnit\kVAR{kVAR}
+\DeclareSIUnit\rpm{rpm}
+\DeclareSIUnit\year{y}
+\DeclareSIUnit\north{N}
+\DeclareSIUnit\south{S}
+\DeclareSIUnit\second{s}
+\DeclareSIUnit\pence{p}
+\DeclareSIUnit\pound{£}
+
+% Constant definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\def\c{2.997e8} %speed of light in a vacuum
+\def\k{1.38065e-23} %Boltzmann's constant
+\def\h{6.6261e-34} %Planck's constant
+\def\pi{3.14157} %pi
+\def\r{6.96e8} % radius of sun in m
+\def\R{1.5e11} %average sun-earth radius in m
+
+\tikzstyle{every pin edge}=[>=stealth,<-,shorten <=1pt,very thin,font=\footnotesize]
+%
+\begin{tikzpicture}[>=stealth,shading=rainbow]
+
+    \begin{axis}[
+        thin,
+        ymode=log,
+        width=7cm,
+        height=8cm,     % size of the image
+        grid = major,
+        grid style={dashed, gray!70},
+        %legend entries={Reflected,Transmitted},
+        xmin=-250,     % start the diagram at this x-coordinate
+        xmax=3250,    % end   the diagram at this x-coordinate
+        ymin=0.6,     % start the diagram at this y-coordinate
+        ymax=50000,   % end   the diagram at this y-coordinate
+        y tick label style={/pgf/number format/.cd,%
+        scaled y ticks = false,
+        set decimal separator={.},
+        fixed},
+        x tick label style={/pgf/number format/.cd,%
+        scaled x ticks = false,
+        set thousands separator={},
+        fixed},
+        /pgfplots/xtick={0,1000,...,3000},
+        %/pgfplots/ytick={0,100,...,400},
+        axis background/.style={fill=white},
+        ylabel=$P$ (\si{\kilo\pascal}),
+        xlabel=Specific enthalpy $h$  (\si{\kJ\per\kg}),
+        tick align=inside,
+        after end axis/.code={
+        % Draw cycle
+            %\draw[red,directed,thick] (axis cs:129.1,900) -- (axis cs:742.7,900);
+            %\draw[red,directed,thick] (axis cs:742.7,900) -- (axis cs:2773,900);
+            \draw[red,directed,thick] (axis cs:129.1,900) -- (axis cs:2773,900) node[midway,above,font=\footnotesize]{boiler};
+            \draw[red,directed,thick] (axis cs:2773,900) -- (axis cs:2006.8,4.5) node[midway,right,font=\footnotesize]{turbine};
+            \draw[red,directed,thick] (axis cs:2006.8,4.5) -- (axis cs:130,4.5) node[midway,below,font=\footnotesize]{condenser};
+            \draw[red,directed,thick] (axis cs:130,4.5) -- (axis cs:129.1,900) node[midway,right,font=\footnotesize]{pump};
+            \node[left,red] at (axis cs:129.1,900) {1};
+            \node[right,red] at (axis cs:2773,900) {2};
+            \node[right,red] at (axis cs:2006.8,4.5) {3};
+            \node[left,red] at (axis cs:130,4.5) {4};
+            }
+        ]
+        
+    % Plot dryness fraction lines
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=hfg9010,y=P] {./data/water-steam-saturation.csv} ;
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=hfg8020,y=P] {./data/water-steam-saturation.csv} node[at start,above,font=\tiny,green] {20\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=hfg7030,y=P] {./data/water-steam-saturation.csv}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=hfg6040,y=P] {./data/water-steam-saturation.csv}  node[at start,above,font=\tiny,green] {40\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=hfg5050,y=P] {./data/water-steam-saturation.csv}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=hfg4060,y=P] {./data/water-steam-saturation.csv}  node[at start,above,font=\tiny,green] {60\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=hfg3070,y=P] {./data/water-steam-saturation.csv}; 
+        \addplot+[mark=none,green!60!,ultra thin,solid] table [col sep=comma,x=hfg2080,y=P] {./data/water-steam-saturation.csv}  node[at start,above,font=\tiny,green] {80\%}; 
+        \addplot+[mark=none,green!60,ultra thin,solid] table [col sep=comma,x=hfg1090,y=P] {./data/water-steam-saturation.csv}; 
+
+      % Plot saturation line
+        \addplot+[mark=none,blue!80,thick,solid] table [col sep=comma,x=hf,y=P] {./data/water-steam-saturation.csv};
+        \addplot+[mark=none,blue!80,thick,solid] table [col sep=comma,x=hg,y=P] {./data/water-steam-saturation.csv};
+        
+        \end{axis} 
+   
+    
+\end{tikzpicture}
+
+\end{document}
+
+
+	        Boiler	Condenser	
+Pressure	900	    4.5	    kPa
+Temperature	175.36	31.01	°C
+hf	        742.7	130	    kJ kg-1
+hg	        2773	2557.4	kJ kg-1
+sf	        2.094	0.451	kJ K-1 kg-1
+sg	        6.621	8.431	kJ K-1 kg-1
+vf	        0.00112	0.001	
+
+
+129.1,900
+742.7,900
+2773,900
+2006.8,4.5
+130,4.5
+129.1,900
+
+
+            
+node[midway] at (axis cs:1500,900) {boiler};

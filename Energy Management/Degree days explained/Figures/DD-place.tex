@@ -1,0 +1,42 @@
+\documentclass{standalone}
+\usepackage[pdftex,active,tightpage]{preview}
+\setlength\PreviewBorder{2mm}
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\pgfplotsset{compat=1.8}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+%\usetikzlibrary{arrows, positioning, calc}
+%\usepackage{siunitx}
+%\usepackage{amsmath}
+%\usepackage{gensymb}
+%
+\begin{document}
+%\pgfplotstabletypeset[string type]{../data/DD-location.csv}
+\begin{tikzpicture}[>=stealth]
+    \begin{axis}[
+        width=14cm, height=8cm,
+        grid = major,
+        grid style={dashed, gray!30},
+        date coordinates in=x,
+        date ZERO=2007-09-01,
+        ymin=0,
+        %ymax=600,
+        xmin=2007-06-01,
+        %xmax=2011-12-01,
+        xtick={2008-01-01,2009-01-01,2010-01-01,2011-01-01,2012-01-01},
+        xticklabel={\year},
+        xlabel={Date},
+        %stack plots=y,
+        ylabel={Degree days per month},
+        ylabel style={yshift=2pt},
+        legend style={
+        legend pos=north west,legend columns=3}
+        ]
+        \addplot [red,thick, mark=none,smooth] table[x=date,y=CamborneMonthlyDD,col sep=comma] {../data/DD-location.csv};
+        \addplot [green,thick, mark=none,smooth]table[col sep=comma,x=date,y=BelfastMonthlyDD] {../data/DD-location.csv};
+       \addplot [blue,thick, mark=none,smooth] table[col sep=comma,x=date,y=AviemoreMonthlyDD] {../data/DD-location.csv};
+        \legend{Camborne,Belfast,Aviemore}
+    \end{axis}
+\end{tikzpicture}
+\end{document}
