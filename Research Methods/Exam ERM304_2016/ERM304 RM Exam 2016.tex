@@ -29,6 +29,7 @@
 \DeclareSIUnit\north{N}
 \DeclareSIUnit\south{S}
 \DeclareSIUnit\second{s}
+\DeclareSIUnit\mmhg{mmHg}
 
 
 % Insert your course information here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,95 +155,94 @@
 
 \bigskip
 
-\paragraph{\textbf{Question 1: (17 marks)}}
+\textbf{Question 1: (17 marks)}\newline
+
 With reference to relevant examples, identify and illustrate the main features of a convincing scientific argument.
-\vspace{3cm}
---------- \textit{\middlewords} ---------
 
-\newpage
+\vspace{1cm}
 
-\paragraph{\textbf{Question 2: (18 marks)}}
+\textbf{Question 2: (18 marks)}\newline
+
 Describe a current or recent research programme related to environmental science and comment on the extent to which the ideas of Kuhn, Popper, Lakatos or Feyerabend provide an adequate account of the conduct of individuals involved and the development of the programme. 
-\vspace{3cm}
---------- \textit{\middlewords} ---------
 
-\newpage
+\vspace{1cm}
 
-\paragraph{\textbf{Question 3: (13 marks)}}
-With reference to examples, assess the role, importance and limitations of the process of peer review within scientific practice.
-\vspace{3cm}
---------- \textit{\middlewords} ---------
+\textbf{Question 3:(xx marks)}\newline
 
-\newpage
+Describe the role played by peer review in the academic process.
 
-\paragraph{\textbf{Question 4: (14 marks)}}
-A healthy systolic blood pressure in adults is about 120 mmHg, with a standard deviation among the adult population of about 12 mmHg. 
+\vspace{1cm}
 
-A pharmaceutical company has devised a drug which they hope will reduce blood pressure by 3 mmHg. This is deemed the minimum reduction that would merit the risks of taking the drug. They ask an investigator to test whether this reduction in pressure actually happens. The investigator makes measurements of blood pressure on a treatment group of 100 randomly chosen individuals who have had the drug, and on a control group of another 100 randomly chosen individuals who have taken a placebo drug instead.  The mean blood pressures for each group are then calculated.
+\textbf{Question 4: (14 marks)}\newline
 
-The pooled standard error of the difference  $\bar{x}_\text{trmt}-\bar{x}_\text{ctrl}$ between the mean pressures from the two samples is 1.7 mmHg.
 
-\begin{enumerate}
-\item In this investigation, double blinding was used. What is this and why is it used here?
-\item What is the standard error of the mean blood pressures $\bar{x}_\text{trmt}$ and $\bar{x}_\text{ctrl}$ of each group?
-\item Write down suitable hypotheses for a two sided hypothesis test in this context.
-\item Under the null hypothesis, what would be the mean difference between the mean values of blood pressure from each sample $\bar{x}_\text{trmt}-\bar{x}_\text{ctrl}$
-\item  Study Figure 1 below which shows probability distributions ofr measured differences of the means under the null hypothesis and under the alternate hypothesis in which there is a reduction in blood pressure of 3 mm Hg. The vertical lines marked A and B indicate the limits of the regions of rejection of the null hypothesis, at the 5% significance level. Explain why they are where they are.
+	A healthy systolic blood pressure in adults is about 120 mmHg, with a standard deviation among the adult population of about 12 mmHg. \newline
+	
+	A pharmaceutical company has devised a drug which it hopes will reduce blood pressure by \SI{3}{\mmhg}. This is deemed the minimum reduction that would merit the risks of taking the drug. A research group is asked to test whether this reduction in pressure actually happens. To do so, the investigators make measurements of blood pressure on a treatment group of 100 randomly chosen individuals who have had the drug, and on a control group of another 100 randomly chosen individuals who have taken a placebo drug instead.  The mean blood pressures for each group are then calculated.\newline
+	
+	
+	The pooled standard error of the difference  $\bar{x}_\text{trmt}-\bar{x}_\text{ctrl}$ between the mean pressures of the two samples is 1.7 mmHg.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.85\textwidth]{power_null_C_0_1_7_with_alt_at_3.png}
-\caption{$P$-$h$ and $T$-$s$ diagrams for a proposed Organic Rankine cycle for a geothermal plant.}
-\label{figure:q3b}
-\end{figure}
-
-\item A research Council insists that any experimental investigation it funds should be designed in such a way as to ensure 80% power. 
-\item Explain the meaning of the term power
-\item  Estimate the approximate power of the investigation and give your reasoning.
-\item What could the investigators do to improve the power of their investigation?
+\begin{enumerate}[label=\alph*)]
+\item	
+	\begin{enumerate}[label=\roman*)]
+	\item In this investigation, double blinding was used. What is this and why is it used here?
+	\item What is the standard error of the mean blood pressures $\bar{x}_\text{trmt}$ and $\bar{x}_\text{ctrl}$ of each group?
+	\item Write down suitable hypotheses for a two sided hypothesis test in this context.
+	\item Under the null hypothesis, what would be the mean difference between the mean values of blood pressure from each sample $\bar{x}_\text{trmt}-\bar{x}_\text{ctrl}$
+	\end{enumerate}
+	
+	\item Study Figure 1 below which shows probability distributions of measured differences of the means under the null hypothesis and under the alternate hypothesis in which there is a reduction in blood pressure of \SI{3}{\mmhg}. The dashed vertical lines indicate the limits of the regions of rejection of the null hypothesis, at the 5\% significance level. 
+	
+	\begin{enumerate}[label=\roman*)]
+	\item Explain why the dashed lines are positioned at about $ \pm\SI{3.4}{\mmhg}$.
+	
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{power_null_C_0_1_7_with_alt_at_3.png}
+	\caption{$P$-$h$ and $T$-$s$ diagrams for a proposed Organic Rankine cycle for a geothermal plant.}
+	\label{figure:q3b}
+	\end{figure}
+	
+	\item A Research Council requires that any experimental investigation it funds should be designed in such a way as to ensure 80\% power. 
+	\item Explain the meaning of the term 'power' in this context.
+	\item  Estimate the approximate power of the investigation and give your reasoning.
+	\item What could the investigators do to improve the power of their investigation?
+	\end{enumerate}
+	
+	
+	
+	\item Ionnadis (2005) made the startling claim in a peer-reviewed article that "most published research findings are false". 
+	
+	We can explore this statement using the following relation. 
+	
+	\begin{align*}
+	\mathrm{Posterior\ odds} &= \mathrm{Bayes\ Factor}\times\mathrm{Prior\ odds}\\
+	&=\left(\dfrac{\mathrm{power}}{\mathrm{1-specificity}}\right)\times\mathrm{Prior\ odds}
+	\end{align*}
+	
+	Let us take the example of a disease, for which the prevalence is 0.1, and for which we have a test. The sensitivity and specificity of this test are both 0.9. 
+	
+	\begin{enumerate}[label=\roman*)]
+	\item What is meant by the term "odds"
+	\item Calculate the posterior odds in this case.
+	\item Given a positive test on someone, is it more likely than not that the person actually has the disease.
+	\item Suggest  how the circumstances under which Ioannidis's statement might be correct could be avoided.
+	
+	\end{enumerate}
 \end{enumerate}
 
+\label{finalpage}
 
-\ (b)
-
-
-Ionnadis (2005) made the startling cliam in a peer-reviewed article that "most published research findings are false". 
-
-We can explore this statement using the following relation. 
-
-\begin{align}
-\mathrm{Posterior\ odds} &= \mathrm{Bayes\ Factor}\times\mathrm{Prior\ odds}\\
-&=\left(\dfrac{\mathrm{power}}{\mathrm{1-specificity}}\right)\times\mathrm{Prior\ odds}
-\end{align}
-
-Let us take the example of a disease, for which the prevalence is 0.1, and for which we have a test. The sensitivity and specificity of this test are both 0.9. 
-
-\begin{enumerate}
-\item What is meant by the term "odds"
-\item Calculate the posterior odds in this case.
-\item Given a positive test on someone, is it more likely than not that the person actually has the disease.
-\item Suggest  how the circumstances under which Ioannidis's statement might be correct could be avoided.
-
-\end{enumerate}
-
-
-% \label{finalpage}
-
-
+\begin{comment}
 
 \newpage
 \paragraph{\textbf{Solutions} \ }
-
 \paragraph{\textbf{Solutions to Question 1: (17 marks)}}
-
-
-
 \paragraph{\textbf{Solutions to Question 2: (18 marks)}}
-
-
 \paragraph{\textbf{Solution to Question 3: (13 marks)}}
 
-
+\end{comment}
 
 \end{document}
 
